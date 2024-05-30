@@ -1,6 +1,5 @@
 package com.group5.dvs_backend.service;
 
-import com.group5.dvs_backend.entity.Account;
 import com.group5.dvs_backend.entity.Customer;
 import com.group5.dvs_backend.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;

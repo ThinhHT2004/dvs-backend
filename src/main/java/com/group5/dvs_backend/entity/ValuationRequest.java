@@ -3,116 +3,46 @@ package com.group5.dvs_backend.entity;
 import java.sql.Date;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "valuation_request")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class ValuationRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "id_customer", nullable = false)
-    private long customerId;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "id_consulting_staff")
-    private long consultingStaffId;
+    private Long consultingStaffId;
 
-    @Column(name = "id_service", nullable = false)
-    private long serviceId;
+    @Column(name = "id_customer")
+    private Long customerId;
 
-    @Column(name = "appointment_date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date appointmentDate;
+    @Column(name = "id_service")
+    private Long serviceId;
+
+    @Column(name = "quantity")
+    private Integer quantity;
+
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "appointment_date")
+    private java.util.Date appointmentDate;
 
     @Column(name = "receiving_date")
-    @Temporal(TemporalType.DATE)
-    private Date receivingDate;
+    private java.util.Date receivingDate;
 
-    @Column(nullable = false)
-    private int quantity;
+    @Column(name = "request_date")
+    private java.util.Date requestDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private Status status;
-
-    @Column(name = "request_date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date requestDate;
-
-    public enum Status {
-        WAITING, APPROVED, APPRAISING, COMPLETED
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(long customerId) {
-        this.customerId = customerId;
-    }
-
-    public long getConsultingStaffId() {
-        return consultingStaffId;
-    }
-
-    public void setConsultingStaffId(long consultingStaffId) {
-        this.consultingStaffId = consultingStaffId;
-    }
-
-    public long getServiceId() {
-        return serviceId;
-    }
-
-    public void setServiceId(long serviceId) {
-        this.serviceId = serviceId;
-    }
-
-    public Date getAppointmentDate() {
-        return appointmentDate;
-    }
-
-    public void setAppointmentDate(Date appointmentDate) {
-        this.appointmentDate = appointmentDate;
-    }
-
-    public Date getReceivingDate() {
-        return receivingDate;
-    }
-
-    public void setReceivingDate(Date receivingDate) {
-        this.receivingDate = receivingDate;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public Date getRequestDate() {
-        return requestDate;
-    }
-
-    public void setRequestDate(Date requestDate) {
-        this.requestDate = requestDate;
-    }
 
 }

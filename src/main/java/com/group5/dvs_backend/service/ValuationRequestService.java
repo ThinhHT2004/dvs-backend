@@ -5,7 +5,9 @@ import java.util.List;
 import com.group5.dvs_backend.entity.ValuationRequest;
 import com.group5.dvs_backend.entity.ValuationRequest.Status;
 import com.group5.dvs_backend.repository.ValuationRequestRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ValuationRequestService {
     private final ValuationRequestRepository valuationRequestRepository;
 
@@ -22,7 +24,6 @@ public class ValuationRequestService {
     }
 
     public void saveValuationRequestInfor(ValuationRequest valuationRequest) {
-        valuationRequest.setStatus(Status.WAITING);
         this.valuationRequestRepository.save(valuationRequest);
     }
 

@@ -1,5 +1,7 @@
 package com.group5.dvs_backend.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
 import com.group5.dvs_backend.entity.ValuationRequest;
@@ -17,7 +19,18 @@ public class ValuationRequestController {
     }
 
     @PostMapping("/create")
-    public void HandlerValuationRequestInfor(@RequestBody ValuationRequest valuationRequest){
+    public void HandlerValuationRequestInfor(@RequestBody ValuationRequest valuationRequest) {
         this.valuationRequestService.saveValuationRequestInfor(valuationRequest);
     }
+
+    @GetMapping("/waiting")
+    public List<ValuationRequest> getWaitingRequests() {
+        return valuationRequestService.getRequestsByStatus("Waiting");
+    }
+
+    @PostMapping("/{requestId}/assign/{consultingStaffId}")
+    public void assignConsultingStaff(@PathVariable Long requestId, @PathVariable Long consultingStaffId) {
+        valuationRequestService.assignConsultingStaff(requestId, consultingStaffId);
+    }
+
 }

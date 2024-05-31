@@ -28,7 +28,7 @@ public class ValuationRequestController {
         return valuationRequestService.getRequestsByStatus("Waiting");
     }
 
-    @PostMapping("/{requestId}/assign/{consultingStaffId}")
+    @PutMapping("/{requestId}/assign/{consultingStaffId}")
     public void assignConsultingStaff(@PathVariable Long requestId, @PathVariable Long consultingStaffId) {
         valuationRequestService.assignConsultingStaff(requestId, consultingStaffId);
     }

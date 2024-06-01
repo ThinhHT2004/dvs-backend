@@ -42,7 +42,7 @@ public class ValuationRequest {
     @JoinColumn(name = "id_customer", nullable = false)
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_service", nullable = false)
     private Service service;
 

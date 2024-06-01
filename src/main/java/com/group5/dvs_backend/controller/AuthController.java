@@ -2,12 +2,10 @@ package com.group5.dvs_backend.controller;
 
 
 import com.group5.dvs_backend.entity.Account;
+import com.group5.dvs_backend.entity.Auth;
 import com.group5.dvs_backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -21,8 +19,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Account login(@RequestParam String username, @RequestParam String password) {
-        return userService.loginUser(username, password);
+    public Account login(@RequestBody Auth auth) {
+        return userService.loginUser(auth);
     }
 
 

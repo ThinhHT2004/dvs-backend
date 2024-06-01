@@ -1,19 +1,34 @@
 package com.group5.dvs_backend.service;
 
 import com.group5.dvs_backend.entity.Account;
+import com.group5.dvs_backend.entity.Auth;
 import com.group5.dvs_backend.entity.Customer;
 import com.group5.dvs_backend.repository.AccountRepository;
 import com.group5.dvs_backend.repository.CustomerRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class UserService {
+
     @Autowired
     private AccountRepository accountRepository;
-
     @Autowired
     private CustomerRepository customerRepository;
 
+
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     public Account registerUser(String username,String password , String confirmPassword) {
         if (accountRepository.findByUsername(username).isPresent()) {
@@ -36,10 +51,10 @@ public class UserService {
 
         return savedAccount;
     }
-    public Account loginUser(String username,String password){
-        Account account = accountRepository.findByUsername(username).orElse(null);
+    public Account loginUser(Auth auth){
+        Account account = accountRepository.findByUsername(auth.getUsername()).orElse(null);
 
-        if(!passwordEncoder.matches(password,account.getPassword())){
+        if(!passwordEncoder.matches(auth.getPassword(),account.getPassword())){
             throw new RuntimeException("Wrong password!");
         }
         return account;

@@ -30,7 +30,10 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
 
-    public Account registerUser(String username,String password , String confirmPassword) {
+    public Account registerUser(Auth auth) {
+        String username = auth.getUsername();
+        String password = auth.getPassword();
+        String confirmPassword = auth.getConfirmPassword();
         if (accountRepository.findByUsername(username).isPresent()) {
             throw new RuntimeException("User already exist!");
         }

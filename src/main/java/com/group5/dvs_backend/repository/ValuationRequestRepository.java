@@ -3,6 +3,7 @@ package com.group5.dvs_backend.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.group5.dvs_backend.entity.ValuationRequest;
@@ -12,4 +13,7 @@ public interface ValuationRequestRepository extends JpaRepository<ValuationReque
     List<ValuationRequest> findAllByConsultingStaffId(Long id);
 
     List<ValuationRequest> findByStatus(String status);
+
+    @Query("SELECT vr FROM ValuationRequest vr INNER JOIN vr.customer c INNER JOIN vr.service WHERE vr.status = 'WAITING'")
+    List<ValuationRequest> findWaitingRequestWithDetails();
 }

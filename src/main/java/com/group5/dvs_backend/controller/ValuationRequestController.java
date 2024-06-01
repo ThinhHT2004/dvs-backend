@@ -25,12 +25,13 @@ public class ValuationRequestController {
 
     @GetMapping("/waiting")
     public List<ValuationRequest> getWaitingRequests() {
-        return valuationRequestService.getRequestsByStatus("Waiting");
+        return valuationRequestService.getDetailedWaitingRequest();
     }
 
     @PutMapping("/{requestId}/assign/{consultingStaffId}")
     public void assignConsultingStaff(@PathVariable Long requestId, @PathVariable Long consultingStaffId) {
         valuationRequestService.assignConsultingStaff(requestId, consultingStaffId);
     }
+
 
 }

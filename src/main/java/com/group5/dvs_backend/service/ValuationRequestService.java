@@ -31,6 +31,10 @@ public class ValuationRequestService {
         return valuationRequestRepository.findByStatus(status);
     }
 
+    public List<ValuationRequest> getDetailedWaitingRequest(){
+        return valuationRequestRepository.findWaitingRequestWithDetails();
+    }
+
     public void assignConsultingStaff(Long requestId, Long consultingStaffId) {
         ValuationRequest valuationRequest = valuationRequestRepository.findById(requestId)
                 .orElseThrow(

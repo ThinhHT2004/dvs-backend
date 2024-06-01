@@ -3,6 +3,7 @@ package com.group5.dvs_backend.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "account")
 public class Account {
 
     @Id
@@ -16,7 +17,7 @@ public class Account {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "role")
+    @Column(name = "role_id")
     private String role;
 
     // Getters and Setters

@@ -14,8 +14,8 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/signup")
-    public Account signup(@RequestParam String username, @RequestParam String password, @RequestParam String confirmPassword) {
-        return userService.registerUser(username, password, confirmPassword);
+    public Account signup(@RequestBody Auth auth) {
+        return userService.registerUser(auth);
     }
 
     @PostMapping("/login")

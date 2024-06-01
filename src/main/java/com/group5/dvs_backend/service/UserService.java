@@ -8,12 +8,14 @@ import com.group5.dvs_backend.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class UserService {
 
     @Autowired
@@ -21,10 +23,17 @@ public class UserService {
     @Autowired
     private CustomerRepository customerRepository;
 
+
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Account registerUser(String username,String password , String confirmPassword) {
+
+    public Account registerUser(Auth auth) {
+        String username = auth.getUsername();
+        String password = auth.getPassword();
+        String confirmPassword = auth.getConfirmPassword();
         if (accountRepository.findByUsername(username).isPresent()) {
             throw new RuntimeException("User already exist!");
         }

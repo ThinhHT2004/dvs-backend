@@ -5,7 +5,7 @@ import com.group5.dvs_backend.entity.Customer;
 import com.group5.dvs_backend.repository.AccountRepository;
 import com.group5.dvs_backend.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class UserService {
     @Autowired
     private AccountRepository accountRepository;
@@ -13,7 +13,7 @@ public class UserService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCruptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public Account registerUser(String username,String password , String confirmPassword) {
         if (accountRepository.findByUsername(username).isPresent()) {

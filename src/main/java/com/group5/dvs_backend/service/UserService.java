@@ -24,8 +24,13 @@ public class UserService {
     private CustomerRepository customerRepository;
 
 
+
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
 
@@ -54,7 +59,8 @@ public class UserService {
         return savedAccount;
     }
     public Account loginUser(Auth auth){
-        Account account = accountRepository.findByUsername(auth.getUsername()).orElse(null);
+        Account account = accountRepository.findByUsername(auth.getUsername())
+                .orElseThrow(() -> new RuntimeException("Username not found"));
 
         if(!passwordEncoder.matches(auth.getPassword(),account.getPassword())){
             throw new RuntimeException("Wrong password!");

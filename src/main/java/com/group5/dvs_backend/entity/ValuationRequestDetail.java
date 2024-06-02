@@ -1,5 +1,6 @@
 package com.group5.dvs_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,12 +16,9 @@ public class ValuationRequestDetail {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_valuation_request", nullable = false)
-    private ValuationRequest valuationRequest;
-
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_valuation_report", nullable = false)
+    @JsonIgnore
     private ValuationReport valuationReport;
 
     @Column(name = "status")
@@ -32,8 +30,7 @@ public class ValuationRequestDetail {
     @Column(name = "is_diamond")
     private boolean isDiamond;
 
-    public ValuationRequestDetail(ValuationRequest valuationRequest, ValuationReport valuationReport, String status, Double size, boolean isDiamond) {
-        this.valuationRequest = valuationRequest;
+    public ValuationRequestDetail( ValuationReport valuationReport, String status, Double size, boolean isDiamond) {
         this.valuationReport = valuationReport;
         this.status = status;
         this.size = size;

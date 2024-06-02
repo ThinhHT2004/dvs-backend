@@ -9,4 +9,5 @@ public interface StaffService {
     List<Staff> getAll();
     Staff getStaffById(Long id);
     void updateStaff(Staff staff);
+    List<Staff> getStaffByRole(String role);
 }

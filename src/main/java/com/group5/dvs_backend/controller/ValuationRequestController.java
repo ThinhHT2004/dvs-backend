@@ -2,6 +2,7 @@ package com.group5.dvs_backend.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.group5.dvs_backend.entity.ValuationRequest;
@@ -31,6 +32,16 @@ public class ValuationRequestController {
     @PutMapping("/{requestId}/assign/{consultingStaffId}")
     public void assignConsultingStaff(@PathVariable Long requestId, @PathVariable Long consultingStaffId) {
         valuationRequestService.assignConsultingStaff(requestId, consultingStaffId);
+    }
+
+    @GetMapping("/valuation-request/{id}")
+    public ResponseEntity<List<ValuationRequest>> getValuationRequestById(@PathVariable Long id) {
+        List<ValuationRequest> result = valuationRequestService.findById(id);
+        if (result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(result);
+        }
     }
 
 

@@ -23,12 +23,6 @@ public class ValuationRequest {
     @Column(name = "id_consulting_staff")
     private Long consultingStaffId;
 
-    @Column(name = "id_customer")
-    private Long customerId;
-
-    @Column(name = "id_service")
-    private Long serviceId;
-
     @Column(name = "quantity")
     private Integer quantity;
 
@@ -47,6 +41,13 @@ public class ValuationRequest {
     @Column(name = "request_date")
     private java.util.Date requestDate;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_customer", nullable = false)
+    private Customer customer;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_service", nullable = false)
+    private Service service;
 
 
 

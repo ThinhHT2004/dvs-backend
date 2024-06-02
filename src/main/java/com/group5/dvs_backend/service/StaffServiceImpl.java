@@ -34,4 +34,9 @@ public class StaffServiceImpl implements StaffService{
     public void updateStaff(Staff staff) {
 
     }
+
+    @Override
+    public List<Staff> getStaffByRole(String role){
+        return staffRepository.findByRole(role);
+    }
 }

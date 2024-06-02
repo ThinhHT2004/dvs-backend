@@ -33,4 +33,7 @@ public class ValuationRequestController {
         valuationRequestService.assignConsultingStaff(requestId, consultingStaffId);
     }
 
+    @GetMapping("/valuation-request/{id}")
+    public ResponseEntity
+
 }

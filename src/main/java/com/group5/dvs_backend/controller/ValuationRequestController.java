@@ -25,7 +25,7 @@ public class ValuationRequestController {
 
     @GetMapping("/waiting")
     public List<ValuationRequest> getWaitingRequests() {
-        return valuationRequestService.getDetailedWaitingRequest();
+        return valuationRequestService.getRequestsByStatus("Waiting");
     }
 
     @PutMapping("/{requestId}/assign/{consultingStaffId}")

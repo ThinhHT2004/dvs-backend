@@ -44,5 +44,5 @@ public class ValuationRequestController {
     public ResponseEntity<ValuationRequest> getValuationRequestById(@PathVariable Long id) {
        return ResponseEntity.ok(valuationRequestService.findById(id));
     }
-    
+
 }

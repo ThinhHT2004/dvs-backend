@@ -34,8 +34,7 @@ public class ValuationRequestController {
     }
 
 
-    @GetMapping("/valuation-request/{id}")
-    public ResponseEntity
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.group5.dvs_backend.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.group5.dvs_backend.entity.ValuationRequest;
@@ -44,5 +45,12 @@ public class ValuationRequestService {
             throw new IllegalStateException("Request is not in 'Waiting' state");
         }
     }
+    public List<ValuationRequest> findById (Long id){
+        return valuationRequestRepository.findById(id)
+                .map(Collections::singletonList)
+                .orElse(Collections.emptyList());
+    }
+
+
 
 }

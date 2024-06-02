@@ -35,9 +35,9 @@ public class ValuationRequestController {
         valuationRequestService.assignConsultingStaff(requestId, consultingStaffId);
     }
 
-    @PostMapping("/create-receipt")
-    public void createReceipt(@RequestBody List<ValuationRequestDetail> details) {
-        valuationRequestService.createReceipt(details);
+    @PostMapping("/create-receipt/{id}")
+    public void createReceipt(@RequestBody List<ValuationRequestDetail> details, @PathVariable("id") Long valuationRequestId) {
+        valuationRequestService.createReceipt(details, valuationRequestId);
     }
 
     @GetMapping("/valuation-request/{id}")
@@ -45,4 +45,14 @@ public class ValuationRequestController {
        return ResponseEntity.ok(valuationRequestService.findById(id));
     }
 
+    @DeleteMapping("/cancel/{id}")
+    public void cancelRequest(@PathVariable("id") Long id){
+        valuationRequestService.cancelRequest(id);
+    }
+
+    @GetMapping("/valuation-request/{staffId}/{status}")
+    public ResponseEntity<List<ValuationRequest>> getValuationRequestByStatusAndStaffId(@PathVariable("staffId") Long id,
+                                                                                        @PathVariable("status") String status){
+        return ResponseEntity.ok(valuationRequestService.getAcceptedRequestsByConsultingStaffId(id, status));
+    }
 }

@@ -1,5 +1,6 @@
 package com.group5.dvs_backend.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.group5.dvs_backend.entity.ValuationReport;
@@ -62,6 +63,13 @@ public class ValuationRequestService {
             throw new IllegalStateException("Request is not in 'Waiting' state");
         }
     }
+    public List<ValuationRequest> findById (Long id){
+        return valuationRequestRepository.findById(id)
+                .map(Collections::singletonList)
+                .orElse(Collections.emptyList());
+    }
+
+
 
     // Tìm những requets có consulting staff id được truyền vào
     public List<ValuationRequest> getAcceptedRequestsByConsultingStaffId(Long consultingStaffId) {

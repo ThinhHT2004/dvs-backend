@@ -2,6 +2,7 @@ package com.group5.dvs_backend.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.group5.dvs_backend.entity.ValuationRequest;
@@ -34,9 +35,25 @@ public class ValuationRequestController {
         valuationRequestService.assignConsultingStaff(requestId, consultingStaffId);
     }
 
+<<<<<<< HEAD
     @PostMapping("/create-receipt")
     public void createReceipt(@RequestBody List<ValuationRequestDetail> details) {
         valuationRequestService.createReceipt(details);
     }
+=======
+    @GetMapping("/valuation-request/{id}")
+    public ResponseEntity<List<ValuationRequest>> getValuationRequestById(@PathVariable Long id) {
+        List<ValuationRequest> result = valuationRequestService.findById(id);
+        if (result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(result);
+        }
+    }
+
+
+
+
+>>>>>>> 42d3f1cbd9c8c00d9d704271bf29e12641698585
 
 }

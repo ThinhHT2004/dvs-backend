@@ -24,8 +24,12 @@ public class UserService {
     private CustomerRepository customerRepository;
 
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
+
+
 
 
     public Account registerUser(Auth auth) {

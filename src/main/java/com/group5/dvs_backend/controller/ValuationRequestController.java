@@ -25,7 +25,7 @@ public class ValuationRequestController {
 
     @GetMapping("/waiting")
     public List<ValuationRequest> getWaitingRequests() {
-        return valuationRequestService.getRequestsByStatus("Waiting");
+        return valuationRequestService.getDetailedWaitingRequest();
     }
 
     @PutMapping("/{requestId}/assign/{consultingStaffId}")
@@ -33,7 +33,9 @@ public class ValuationRequestController {
         valuationRequestService.assignConsultingStaff(requestId, consultingStaffId);
     }
 
+
     @GetMapping("/valuation-request/{id}")
     public ResponseEntity
+
 
 }

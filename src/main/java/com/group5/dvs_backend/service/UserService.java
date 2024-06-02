@@ -29,8 +29,7 @@ public class UserService {
 
 
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    
 
 
 

@@ -33,13 +33,12 @@ public class ValuationRequestService {
     }
 
     public void saveValuationRequestInfor(ValuationRequest valuationRequest) {
-        ValuationRequest savedValuationRequest = valuationRequestRepository.save(valuationRequest);
-        for (int i = 0; i < savedValuationRequest.getQuantity(); i++) {
+        for (int i = 0; i < valuationRequest.getQuantity(); i++) {
             ValuationReport valuationReport = valuationReportRepository.save(new ValuationReport());
-            ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
-                    .save(new ValuationRequestDetail(
-                            savedValuationRequest, valuationReport, "WAITING", 0.0, false));
+            valuationRequest.addValuationRequestDetail(new ValuationRequestDetail(valuationReport, "WAITING",0.0, false));
         }
+        valuationRequest.setStatus("WAITING");
+        valuationRequestRepository.save(valuationRequest);
     }
 
     public List<ValuationRequest> getRequestsByStatus(String status) {
@@ -57,30 +56,32 @@ public class ValuationRequestService {
 
         if ("Waiting".equalsIgnoreCase(valuationRequest.getStatus())) {
             valuationRequest.setConsultingStaffId(consultingStaffId);
-            valuationRequest.setStatus("APPROVED");
+            valuationRequest.setStatus("ACCEPTED");
             valuationRequestRepository.save(valuationRequest);
         } else {
             throw new IllegalStateException("Request is not in 'Waiting' state");
         }
     }
     public ValuationRequest findById (Long id){
-        return valuationRequestRepository.findById(id)
+        return valuationRequestRepository.findByIdWithDetails(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No Request found"));
     }
 
 
 
     // Tìm những requets có consulting staff id được truyền vào
-    public List<ValuationRequest> getAcceptedRequestsByConsultingStaffId(Long consultingStaffId) {
-        return valuationRequestRepository.findByConsultingStaffIdAndStatus(consultingStaffId, "ACCEPTED");
+    public List<ValuationRequest> getAcceptedRequestsByConsultingStaffId(Long consultingStaffId, String status) {
+        return valuationRequestRepository.findByConsultingStaffIdAndStatus(consultingStaffId, status);
     }
 
     // tao bien lai
-    public void createReceipt(List<ValuationRequestDetail> valuationRequestDetails) {
+    public void createReceipt(List<ValuationRequestDetail> valuationRequestDetails, Long valuationRequestId) {
         if (valuationRequestDetails.isEmpty()) {
             throw new IllegalArgumentException("The list of ValuationRequestDetails cannot be empty.");
         }
-        ValuationRequest valuationRequest = valuationRequestDetails.get(0).getValuationRequest();
+        ValuationRequest valuationRequest = valuationRequestRepository
+                .findById(valuationRequestId)
+                .orElseThrow(() -> new RuntimeException("No Valuation Request Found"));
 
         for (ValuationRequestDetail detail : valuationRequestDetails) {
             ValuationRequestDetail existingDetail = valuationRequestDetailRepository.findById(detail.getId())
@@ -95,4 +96,11 @@ public class ValuationRequestService {
         valuationRequestRepository.save(valuationRequest);
     }
 
+    public void cancelRequest(Long id){
+        ValuationRequest valuationRequest = valuationRequestRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No Valuation Request found"));
+
+        valuationRequestRepository.delete(valuationRequest);
+    }
 }

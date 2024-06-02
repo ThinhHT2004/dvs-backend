@@ -13,7 +13,7 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     public List<Customer> getAll() {
-        return customerRepository.findAll();
+        return customerRepository.findAllCustomers();
     }
 
     public Customer getCustomerById(Long id) {

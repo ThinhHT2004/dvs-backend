@@ -10,12 +10,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
+@CrossOrigin
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Customer> showAllCustomer(){
         return customerService.getAll();
     }

@@ -16,4 +16,6 @@ public interface ValuationRequestRepository extends JpaRepository<ValuationReque
 
     @Query("SELECT vr FROM ValuationRequest vr INNER JOIN vr.customer c INNER JOIN vr.service WHERE vr.status = 'WAITING'")
     List<ValuationRequest> findWaitingRequestWithDetails();
+
+    List<ValuationRequest> findByConsultingStaffIdAndStatus(Long consultingStaffId, String status);
 }

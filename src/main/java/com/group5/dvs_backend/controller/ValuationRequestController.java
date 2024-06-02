@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 import com.group5.dvs_backend.entity.ValuationRequest;
+import com.group5.dvs_backend.entity.ValuationRequestDetail;
 import com.group5.dvs_backend.service.ValuationRequestService;
 
 @RestController
@@ -33,5 +34,9 @@ public class ValuationRequestController {
         valuationRequestService.assignConsultingStaff(requestId, consultingStaffId);
     }
 
+    @PostMapping("/create-receipt")
+    public void createReceipt(@RequestBody List<ValuationRequestDetail> details) {
+        valuationRequestService.createReceipt(details);
+    }
 
 }

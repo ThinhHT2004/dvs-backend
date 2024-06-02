@@ -23,7 +23,6 @@ public class ValuationRequestService {
     @Autowired
     private final ValuationReportRepository valuationReportRepository;
 
-
     public List<ValuationRequest> getAll() {
         return valuationRequestRepository.findAll();
     }
@@ -38,8 +37,7 @@ public class ValuationRequestService {
             ValuationReport valuationReport = valuationReportRepository.save(new ValuationReport());
             ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
                     .save(new ValuationRequestDetail(
-                            savedValuationRequest, valuationReport , "WAITING", 0.0, false)
-                    );
+                            savedValuationRequest, valuationReport, "WAITING", 0.0, false));
         }
     }
 
@@ -47,7 +45,7 @@ public class ValuationRequestService {
         return valuationRequestRepository.findByStatus(status);
     }
 
-    public List<ValuationRequest> getDetailedWaitingRequest(){
+    public List<ValuationRequest> getDetailedWaitingRequest() {
         return valuationRequestRepository.findWaitingRequestWithDetails();
     }
 
@@ -63,6 +61,31 @@ public class ValuationRequestService {
         } else {
             throw new IllegalStateException("Request is not in 'Waiting' state");
         }
+    }
+
+    // Tìm những requets có consulting staff id được truyền vào
+    public List<ValuationRequest> getAcceptedRequestsByConsultingStaffId(Long consultingStaffId) {
+        return valuationRequestRepository.findByConsultingStaffIdAndStatus(consultingStaffId, "ACCEPTED");
+    }
+
+    // tao bien lai
+    public void createReceipt(List<ValuationRequestDetail> valuationRequestDetails) {
+        if (valuationRequestDetails.isEmpty()) {
+            throw new IllegalArgumentException("The list of ValuationRequestDetails cannot be empty.");
+        }
+        ValuationRequest valuationRequest = valuationRequestDetails.get(0).getValuationRequest();
+
+        for (ValuationRequestDetail detail : valuationRequestDetails) {
+            ValuationRequestDetail existingDetail = valuationRequestDetailRepository.findById(detail.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "ValuationRequestDetail not found for id: " + detail.getId()));
+            existingDetail.setSize(detail.getSize());
+            existingDetail.setStatus("FILLING");
+            valuationRequestDetailRepository.save(existingDetail);
+        }
+
+        valuationRequest.setStatus("RECEIVED");
+        valuationRequestRepository.save(valuationRequest);
     }
 
 }

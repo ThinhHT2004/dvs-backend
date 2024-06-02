@@ -37,4 +37,8 @@ public class Staff {
 
     @Column(name = "dob")
     private Date dob;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id", nullable = false)
+    private Account account;
 }

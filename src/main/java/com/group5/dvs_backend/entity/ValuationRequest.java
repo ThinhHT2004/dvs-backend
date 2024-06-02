@@ -29,8 +29,6 @@ public class ValuationRequest {
     @Column(name = "status")
     private String status;
 
-    @Column(name= "some_field")
-    private String someField;
 
     @Column(name = "appointment_date")
     private java.util.Date appointmentDate;

@@ -63,10 +63,9 @@ public class ValuationRequestService {
             throw new IllegalStateException("Request is not in 'Waiting' state");
         }
     }
-    public List<ValuationRequest> findById (Long id){
+    public ValuationRequest findById (Long id){
         return valuationRequestRepository.findById(id)
-                .map(Collections::singletonList)
-                .orElse(Collections.emptyList());
+                .orElseThrow(() -> new ResourceNotFoundException("No Request found"));
     }
 
 

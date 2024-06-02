@@ -34,26 +34,15 @@ public class ValuationRequestController {
     public void assignConsultingStaff(@PathVariable Long requestId, @PathVariable Long consultingStaffId) {
         valuationRequestService.assignConsultingStaff(requestId, consultingStaffId);
     }
-
-<<<<<<< HEAD
     @PostMapping("/create-receipt")
     public void createReceipt(@RequestBody List<ValuationRequestDetail> details) {
         valuationRequestService.createReceipt(details);
     }
-=======
+
     @GetMapping("/valuation-request/{id}")
-    public ResponseEntity<List<ValuationRequest>> getValuationRequestById(@PathVariable Long id) {
-        List<ValuationRequest> result = valuationRequestService.findById(id);
-        if (result.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(result);
-        }
+    public ResponseEntity<ValuationRequest> getValuationRequestById(@PathVariable Long id) {
+       return ResponseEntity.ok(valuationRequestService.findById(id));
     }
 
-
-
-
->>>>>>> 42d3f1cbd9c8c00d9d704271bf29e12641698585
 
 }

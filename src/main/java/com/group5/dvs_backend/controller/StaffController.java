@@ -26,4 +26,9 @@ public class StaffController {
     public List<Staff> getAll(){
         return service.getAll();
     }
+
+    @GetMapping("/valuation-staffs")
+    public List<Staff> getValuationStaffs(){
+        return service.getStaffByRole("VALUATION_STAFF");
+    }
 }

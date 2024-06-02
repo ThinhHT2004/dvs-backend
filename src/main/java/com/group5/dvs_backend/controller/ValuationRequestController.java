@@ -34,6 +34,7 @@ public class ValuationRequestController {
     public void assignConsultingStaff(@PathVariable Long requestId, @PathVariable Long consultingStaffId) {
         valuationRequestService.assignConsultingStaff(requestId, consultingStaffId);
     }
+
     @PostMapping("/create-receipt")
     public void createReceipt(@RequestBody List<ValuationRequestDetail> details) {
         valuationRequestService.createReceipt(details);
@@ -43,6 +44,5 @@ public class ValuationRequestController {
     public ResponseEntity<ValuationRequest> getValuationRequestById(@PathVariable Long id) {
        return ResponseEntity.ok(valuationRequestService.findById(id));
     }
-
-
+    
 }

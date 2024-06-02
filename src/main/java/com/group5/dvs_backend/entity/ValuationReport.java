@@ -24,6 +24,8 @@ public class ValuationReport {
     private Double finalPrice;
     @Column(name = "created_date")
     private Date craetedDate;
+
+
     @Column(name = "carat_weight")
     private Double caratWeight;
     @Column(name = "clarity")

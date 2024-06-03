@@ -1,12 +1,15 @@
 package com.group5.dvs_backend.service;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
+import com.group5.dvs_backend.entity.Form;
 import com.group5.dvs_backend.entity.ValuationReport;
 import com.group5.dvs_backend.entity.ValuationRequest;
 import com.group5.dvs_backend.entity.ValuationRequestDetail;
 import com.group5.dvs_backend.exception.ResourceNotFoundException;
+import com.group5.dvs_backend.repository.FormRepository;
 import com.group5.dvs_backend.repository.ValuationReportRepository;
 import com.group5.dvs_backend.repository.ValuationRequestDetailRepository;
 import com.group5.dvs_backend.repository.ValuationRequestRepository;
@@ -23,6 +26,8 @@ public class ValuationRequestService {
     private final ValuationRequestDetailRepository valuationRequestDetailRepository;
     @Autowired
     private final ValuationReportRepository valuationReportRepository;
+    @Autowired
+    private final FormRepository formRepository;
 
     public List<ValuationRequest> getAll() {
         return valuationRequestRepository.findAll();
@@ -91,6 +96,8 @@ public class ValuationRequestService {
             existingDetail.setStatus("FILLING");
             valuationRequestDetailRepository.save(existingDetail);
         }
+
+        formRepository.save(new Form(valuationRequestId, "RECEIPT", "", new Date()));
 
         valuationRequest.setStatus("RECEIVED");
         valuationRequestRepository.save(valuationRequest);

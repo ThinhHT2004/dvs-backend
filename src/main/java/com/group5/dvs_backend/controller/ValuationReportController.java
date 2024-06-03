@@ -15,10 +15,11 @@ public class ValuationReportController {
 
     private ValuationReportService valuationReportService;
 
-    @PutMapping("update/{id}")
+    @PutMapping("update/{vrId}/{id}")
     public ValuationReport editReport(
+            @PathVariable("vrId") Long valuationRequestId,
             @PathVariable("id") Long valuationRequestDetailId,
             @RequestBody ValuationReport valuationReport){
-        return valuationReportService.updateValuationReport(valuationRequestDetailId,valuationReport);
+        return valuationReportService.updateValuationReport(valuationRequestId,valuationRequestDetailId,valuationReport);
     }
 }

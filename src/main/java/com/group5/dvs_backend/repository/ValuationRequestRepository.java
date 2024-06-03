@@ -24,7 +24,7 @@ public interface ValuationRequestRepository extends JpaRepository<ValuationReque
     @Query("SELECT vr FROM ValuationRequest vr " +
             "INNER JOIN vr.customer c " +
             "INNER JOIN vr.service" +
-            " WHERE vr.consultingStaffId =?1 AND vr.status =?2")
+            " WHERE vr.consultingStaffId =?1 AND vr.status !=?2")
     List<ValuationRequest> findByConsultingStaffIdAndStatus(Long consultingStaffId, String status);
 
     @Query("SELECT vr FROM ValuationRequest vr JOIN vr.customer c JOIN vr.service " +

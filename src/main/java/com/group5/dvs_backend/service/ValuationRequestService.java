@@ -110,4 +110,8 @@ public class ValuationRequestService {
 
         valuationRequestRepository.delete(valuationRequest);
     }
+
+    public List<ValuationRequest> getValuationRequestByStaffIdNotStatus(Long id, String status){
+        return valuationRequestRepository.findByConsultingStaffAndNotStatus(id, status);
+    }
 }

@@ -55,4 +55,15 @@ public class ValuationRequestController {
                                                                                         @PathVariable("status") String status){
         return ResponseEntity.ok(valuationRequestService.getAcceptedRequestsByConsultingStaffId(id, status));
     }
+
+    @GetMapping("/valuation-request/not/{staffId}/{status}")
+    public ResponseEntity<List<ValuationRequest>> getValuationRequestByStaffIdWithNotStatus(@PathVariable("staffId") Long id,
+                                                                                            @PathVariable("status") String status){
+        return ResponseEntity.ok(valuationRequestService.getValuationRequestByStaffIdNotStatus(id, status));
+    }
+
+    @GetMapping("/valuation-request/status/{status}")
+    public ResponseEntity<List<ValuationRequest>> getValuationRequestByStatus(@PathVariable("status") String status){
+        return ResponseEntity.ok(valuationRequestService.getRequestsByStatus(status));
+    }
 }

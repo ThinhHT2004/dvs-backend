@@ -3,12 +3,15 @@ package com.group5.dvs_backend.service;
 import com.group5.dvs_backend.entity.Staff;
 import com.group5.dvs_backend.entity.ValuationAssignment;
 import com.group5.dvs_backend.entity.ValuationRequestDetail;
+import com.group5.dvs_backend.exception.ResourceNotFoundException;
 import com.group5.dvs_backend.repository.StaffRepository;
 import com.group5.dvs_backend.repository.ValuationAssignmentRepository;
 import com.group5.dvs_backend.repository.ValuationRequestDetailRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ValuationAssignmentService {
@@ -24,26 +27,81 @@ public class ValuationAssignmentService {
         this.valuationRequestDetailRepository = valuationRequestDetailRepository;
     }
 
-    @Transactional
-    public void assignStaffForValuation(Long staff1Id, Long staff2Id, Long staff3Id, Long valuationRequestDetailId) {
-        ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
-                .findById(valuationRequestDetailId)
-                .orElseThrow(() -> new RuntimeException("ValuationRequestDetail not found"));
+//    @Transactional
+//    public String assignStaffForValuation(ValuationRequestDetail valuationRequestDetail) {
+//        ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
+//                .findById(valuationRequestDetailId)
+//                .orElseThrow(() -> new RuntimeException("ValuationRequestDetail not found"));
+//
+//        assignStaff(staff1Id, valuationRequestDetail);
+//        assignStaff(staff2Id, valuationRequestDetail);
+//        assignStaff(staff3Id, valuationRequestDetail);
+//        return "Assign Successfully";
+//    }
+//
+//    private void assignStaff(Long staffId, ValuationRequestDetail valuationRequestDetail) {
+//        Staff staff = staffRepository.findById(staffId)
+//                .orElseThrow(() -> new RuntimeException("Staff not found"));
+//
+//        ValuationAssignment valuationAssignment = new ValuationAssignment();
+//        valuationAssignment.setValuationStaff(staff);
+//        valuationAssignment.setValuationRequestDetail(valuationRequestDetail);
+//        valuationAssignment.setStatus("ASSIGNED");
+//
+//        valuationAssignmentRepository.save(valuationAssignment);
+//    }
 
-        assignStaff(staff1Id, valuationRequestDetail);
-        assignStaff(staff2Id, valuationRequestDetail);
-        assignStaff(staff3Id, valuationRequestDetail);
+    public String assignStaffs(List<Staff> list, Long valuationDetailId){
+        ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
+                .findById(valuationDetailId)
+                .orElseThrow(() -> new ResourceNotFoundException("Valuation Request Detail not found"));
+
+        List<ValuationAssignment> valuationAssignments = new ArrayList<>();
+        for(Staff staff : list){
+            valuationAssignments.add(new ValuationAssignment(staff, "ASSIGNED"));
+        }
+
+        valuationRequestDetail.setAssignmentList(valuationAssignments);
+        valuationRequestDetail.setStatus("ASSIGNED");
+
+        valuationRequestDetailRepository.save(valuationRequestDetail);
+
+        return "Assign Successfully";
     }
 
-    private void assignStaff(Long staffId, ValuationRequestDetail valuationRequestDetail) {
-        Staff staff = staffRepository.findById(staffId)
-                .orElseThrow(() -> new RuntimeException("Staff not found"));
+    public List<ValuationAssignment> findAll(){
+        return valuationAssignmentRepository.findAll();
+    }
 
-        ValuationAssignment valuationAssignment = new ValuationAssignment();
-        valuationAssignment.setValuationStaff(staff);
-        valuationAssignment.setValuationRequestDetail(valuationRequestDetail);
-        valuationAssignment.setStatus("ASSIGNED");
+    public List<ValuationAssignment> findByStaffId(Long id){
+        return valuationAssignmentRepository.findByValuationStaffId(id);
+    }
 
-        valuationAssignmentRepository.save(valuationAssignment);
+    public ValuationAssignment valuate(ValuationAssignment valuationAssignment){
+        valuationAssignment.setStatus("VALUATED");
+        ValuationAssignment updatedAssignment = valuationAssignmentRepository.save(valuationAssignment);
+
+        List<ValuationAssignment> list = valuationAssignmentRepository
+                .findByValuationRequestDetailId(updatedAssignment.getValuationRequestDetail().getId());
+
+        boolean check = true;
+
+        for (ValuationAssignment assignment : list){
+            if (assignment.getStatus().equals("ASSIGNED")){
+                check = false;
+                break;
+            }
+        }
+
+        if (check){
+            ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
+                    .findById(updatedAssignment.getValuationRequestDetail().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("No Valuation Request Detail found"));
+
+            valuationRequestDetail.setStatus("VALUATED");
+            valuationAssignmentRepository.save(valuationAssignment);
+        }
+
+        return updatedAssignment;
     }
 }

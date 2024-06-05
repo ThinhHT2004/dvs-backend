@@ -51,4 +51,11 @@ public class ValuationReportServiceImpl implements ValuationReportService{
         valuationRequestRepository.save(valuationRequest);
         return valuationReportRepository.save(valuationReport);
     }
+
+    @Override
+    public ValuationReport findById(Long id) {
+        return valuationReportRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No Valuation Report found"));
+    }
 }

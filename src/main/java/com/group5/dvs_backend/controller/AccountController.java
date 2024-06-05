@@ -32,4 +32,6 @@ public class AccountController {
     public void updateAccount(@RequestBody Account updatedAccount) {
         accountService.updateAccount(updatedAccount);
     }
+
+
 }

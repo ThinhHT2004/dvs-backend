@@ -13,7 +13,6 @@ import com.group5.dvs_backend.entity.ValuationRequest;
 public interface ValuationRequestRepository extends JpaRepository<ValuationRequest, Long> {
     List<ValuationRequest> findAllByConsultingStaffId(Long id);
 
-
     List<ValuationRequest> findByStatus(String status);
 
     @Query("SELECT vr FROM ValuationRequest vr " +

@@ -6,4 +6,5 @@ import com.group5.dvs_backend.entity.ValuationRequestDetail;
 
 public interface ValuationReportService {
     ValuationReport updateValuationReport(Long vrId,Long id,ValuationReport valuationReport);
+    ValuationReport findById(Long id);
 }

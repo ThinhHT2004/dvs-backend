@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "valuation_request_detail")
 @Getter
@@ -16,10 +18,13 @@ public class ValuationRequestDetail {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_valuation_report", nullable = false)
-    @JsonIgnore
     private ValuationReport valuationReport;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "valuationRequestDetail")
+    @JsonIgnore
+    private List<ValuationAssignment> assignmentList;
 
     @Column(name = "status")
     private String status;

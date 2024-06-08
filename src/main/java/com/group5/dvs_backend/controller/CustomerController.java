@@ -31,11 +31,11 @@ public class CustomerController {
     }
     @GetMapping("/request/{id}")
     public ResponseEntity<Customer> getRequestById(@PathVariable Long id){
-        Customer customer = customerService.getCustomerById(id);
+        List<Customer> customer = customerService.getRequestByCustomerId(id);
         if(customer == null) {
             return ResponseEntity.notFound().build();
         }else{
-            return ResponseEntity.ok(customer);
+            return ResponseEntity.ok((Customer) customer);
     }
     }
 

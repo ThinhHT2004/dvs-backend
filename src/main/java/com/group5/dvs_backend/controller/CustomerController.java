@@ -4,6 +4,7 @@ package com.group5.dvs_backend.controller;
 import com.group5.dvs_backend.entity.Customer;
 import com.group5.dvs_backend.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,16 @@ public class CustomerController {
         customerService.updateCustomer(updatedCustomer);
 
     }
+    @GetMapping("/request/{id}")
+    public ResponseEntity<Customer> getRequestById(@PathVariable Long id){
+        Customer customer = customerService.getCustomerById(id);
+        if(customer == null) {
+            return ResponseEntity.notFound().build();
+        }else{
+            return ResponseEntity.ok(customer);
+    }
+    }
+
 
 
 

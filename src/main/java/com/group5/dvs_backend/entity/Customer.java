@@ -38,4 +38,7 @@ public class Customer {
     @Column(name = "dob",nullable = false)
     private Date dob;
 
+    @OneToMany(mappedBy = "customer")
+    private List<ValuationRequest> valuation_request;
+
 }

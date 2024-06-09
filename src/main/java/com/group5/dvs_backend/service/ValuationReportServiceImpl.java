@@ -14,48 +14,56 @@ import org.springframework.web.client.ResourceAccessException;
 
 @Service
 @AllArgsConstructor
-public class ValuationReportServiceImpl implements ValuationReportService{
-    @Autowired
-    private ValuationRequestRepository valuationRequestRepository;
-    @Autowired
-    private ValuationReportRepository valuationReportRepository;
-    @Autowired
-    private ValuationRequestDetailRepository valuationRequestDetailRepository;
-    @Override
-    public ValuationReport updateValuationReport(Long vrId,Long id,ValuationReport updatedValuationReport) {
-        ValuationRequest valuationRequest = valuationRequestRepository
-                .findById(vrId)
-                .orElseThrow(() -> new ResourceNotFoundException("No Valuation Request with id" + vrId + " found"));
-        ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No Valuation Request Detail with id " + id + " found"));
-        ValuationReport valuationReport = valuationReportRepository
-                .findById(valuationRequestDetail.getValuationReport().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("No Valuation Report with id " +
-                        valuationRequestDetail.getValuationReport().getId() + " found"));
+public class ValuationReportServiceImpl implements ValuationReportService {
+        @Autowired
+        private ValuationRequestRepository valuationRequestRepository;
+        @Autowired
+        private ValuationReportRepository valuationReportRepository;
+        @Autowired
+        private ValuationRequestDetailRepository valuationRequestDetailRepository;
 
-        valuationReport.setColor(updatedValuationReport.getColor());
-        valuationReport.setClarity(updatedValuationReport.getClarity());
-        valuationReport.setFluorescence(updatedValuationReport.getFluorescence());
-        valuationReport.setPolish(updatedValuationReport.getPolish());
-        valuationReport.setOrigin(updatedValuationReport.getOrigin());
-        valuationReport.setCaratWeight(updatedValuationReport.getCaratWeight());
-        valuationReport.setShape(updatedValuationReport.getShape());
-        valuationReport.setMeasurement(updatedValuationReport.getMeasurement());
-        valuationReport.setProportion(updatedValuationReport.getProportion());
-        valuationReport.setSymmetry(updatedValuationReport.getSymmetry());
+        @Override
+        public ValuationReport updateValuationReport(Long vrId, Long id, ValuationReport updatedValuationReport) {
+                ValuationRequest valuationRequest = valuationRequestRepository
+                                .findById(vrId)
+                                .orElseThrow(() -> new ResourceNotFoundException(
+                                                "No Valuation Request with id" + vrId + " found"));
+                ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
+                                .findById(id)
+                                .orElseThrow(() -> new ResourceNotFoundException(
+                                                "No Valuation Request Detail with id " + id + " found"));
+                ValuationReport valuationReport = valuationReportRepository
+                                .findById(valuationRequestDetail.getValuationReport().getId())
+                                .orElseThrow(() -> new ResourceNotFoundException("No Valuation Report with id " +
+                                                valuationRequestDetail.getValuationReport().getId() + " found"));
 
-        valuationRequestDetail.setStatus("FILLED");
-        valuationRequest.setStatus("PROCESSING");
-        valuationRequestDetailRepository.save(valuationRequestDetail);
-        valuationRequestRepository.save(valuationRequest);
-        return valuationReportRepository.save(valuationReport);
-    }
+                valuationReport.setColor(updatedValuationReport.getColor());
+                valuationReport.setClarity(updatedValuationReport.getClarity());
+                valuationReport.setFluorescence(updatedValuationReport.getFluorescence());
+                valuationReport.setPolish(updatedValuationReport.getPolish());
+                valuationReport.setOrigin(updatedValuationReport.getOrigin());
+                valuationReport.setCaratWeight(updatedValuationReport.getCaratWeight());
+                valuationReport.setShape(updatedValuationReport.getShape());
+                valuationReport.setMeasurement(updatedValuationReport.getMeasurement());
+                valuationReport.setProportion(updatedValuationReport.getProportion());
+                valuationReport.setSymmetry(updatedValuationReport.getSymmetry());
 
-    @Override
-    public ValuationReport findById(Long id) {
-        return valuationReportRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No Valuation Report found"));
-    }
+                valuationRequestDetail.setStatus("FILLED");
+                valuationRequest.setStatus("PROCESSING");
+                valuationRequestDetailRepository.save(valuationRequestDetail);
+                valuationRequestRepository.save(valuationRequest);
+                return valuationReportRepository.save(valuationReport);
+        }
+
+        @Override
+        public ValuationReport findById(Long id) {
+                return valuationReportRepository
+                                .findById(id)
+                                .orElseThrow(() -> new ResourceNotFoundException("No Valuation Report found"));
+        }
+
+        @Override
+        public ValuationReport save(ValuationReport valuationReport) {
+                return valuationReportRepository.save(valuationReport);
+        }
 }

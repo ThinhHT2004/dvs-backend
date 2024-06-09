@@ -30,12 +30,12 @@ public class CustomerController {
 
     }
     @GetMapping("/request/{id}")
-    public ResponseEntity<Customer> getRequestById(@PathVariable Long id){
+    public ResponseEntity <List<Customer>> getRequestById(@PathVariable Long id){
         List<Customer> customer = customerService.getRequestByCustomerId(id);
         if(customer == null) {
             return ResponseEntity.notFound().build();
         }else{
-            return ResponseEntity.ok((Customer) customer);
+            return ResponseEntity.ok(customer);
     }
     }
 

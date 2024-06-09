@@ -38,7 +38,7 @@ public class Customer {
     @Column(name = "dob",nullable = false)
     private Date dob;
 
-    @OneToOne(mappedBy = "customer")
+    @OneToOne(mappedBy = "customer",fetch = FetchType.LAZY)
     private ValuationRequest valuation_request;
 
 }

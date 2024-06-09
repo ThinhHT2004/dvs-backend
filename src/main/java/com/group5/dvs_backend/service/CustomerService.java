@@ -23,7 +23,7 @@ public class CustomerService {
     public void updateCustomer(Customer updatedCustomer) {
         customerRepository.save(updatedCustomer);
     }
-    public List<Customer> getRequestByCustomerId(Long id) {
-        return customerRepository.findByCustomerId(id);
+    public List<Customer> getRequestByCustomerId(Long id_customer) {
+        return customerRepository.findByCustomerId(id_customer);
     }
 }

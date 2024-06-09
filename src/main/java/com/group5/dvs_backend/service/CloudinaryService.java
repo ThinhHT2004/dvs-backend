@@ -7,23 +7,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.Cloudinary;
+import com.group5.dvs_backend.entity.ValuationReport;
 
 @Service
 public class CloudinaryService {
 
     private final Cloudinary cloudinary;
-    // private final ImageRepository imageRepository;
+    private final ValuationReportServiceImpl valuationReportServiceImpl;
 
-    public CloudinaryService(Cloudinary cloudinary) {
+    public CloudinaryService(Cloudinary cloudinary, ValuationReportServiceImpl valuationReportServiceImpl) {
         this.cloudinary = cloudinary;
+        this.valuationReportServiceImpl = valuationReportServiceImpl;
     }
-    // public CloudinaryService(Cloudinary cloudinary, ImageRepository
-    // imageRepository) {
-    // this.cloudinary = cloudinary;
-    // this.imageRepository = imageRepository;
-    // }
 
-    public Map upload(MultipartFile file) {
+    public Map uploadToCloudinary(MultipartFile file, Long valuationReportId) {
         try {
             /*
              * Map chứa thông tin về file đã được tải lên. Các thông tin này
@@ -33,10 +30,10 @@ public class CloudinaryService {
             Map data = this.cloudinary.uploader().upload(file.getBytes(), Map.of());
 
             // Lưu URL của ảnh xuống cơ sở dữ liệu
-            // String imageUrl = (String) data.get("url");
-            // Image image = new Image();
-            // image.setUrl(imageUrl);
-            // imageRepository.save(image);
+            String imageUrl = (String) data.get("url");
+            ValuationReport valuationReport = valuationReportServiceImpl.findById(valuationReportId);
+            valuationReport.setProportion(imageUrl);
+            valuationReportServiceImpl.save(valuationReport);
 
             return data;
         } catch (IOException io) {

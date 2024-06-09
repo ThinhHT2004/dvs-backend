@@ -11,6 +11,6 @@ import java.util.List;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("SELECT c FROM Customer c")
     List<Customer> findAllCustomers();
-    @Query("SELECT c FROM Customer c JOIN c.valuation_request vr WHERE vr.valuation_request.id_customer =?1")
+    @Query("SELECT c FROM Customer c JOIN c.valuation_request vr WHERE vr.customer.id =?1")
     List<Customer> findByCustomerId(Long id_customer);
 }

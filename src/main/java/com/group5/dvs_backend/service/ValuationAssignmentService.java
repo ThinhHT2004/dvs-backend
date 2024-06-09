@@ -58,7 +58,7 @@ public class ValuationAssignmentService {
 
         List<ValuationAssignment> valuationAssignments = new ArrayList<>();
         for(Staff staff : list){
-            valuationAssignments.add(new ValuationAssignment(staff, "ASSIGNED"));
+            valuationAssignments.add(new ValuationAssignment(staff, valuationRequestDetail,"ASSIGNED"));
         }
 
         valuationRequestDetail.setAssignmentList(valuationAssignments);
@@ -74,7 +74,14 @@ public class ValuationAssignmentService {
     }
 
     public List<ValuationAssignment> findByStaffId(Long id){
-        return valuationAssignmentRepository.findByValuationStaffId(id);
+        List<ValuationAssignment> valuationAssignments = valuationAssignmentRepository.findByValuationStaffId(id);
+        for (ValuationAssignment valuationAssignment : valuationAssignments){
+            ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
+                    .findById(valuationAssignment.getValuationRequestDetail().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("No Valuation Request Detail Found"));
+            valuationAssignment.setValuationRequestDetail(valuationRequestDetail);
+        }
+        return valuationAssignments;
     }
 
     public ValuationAssignment valuate(ValuationAssignment valuationAssignment){
@@ -99,7 +106,7 @@ public class ValuationAssignmentService {
                     .orElseThrow(() -> new ResourceNotFoundException("No Valuation Request Detail found"));
 
             valuationRequestDetail.setStatus("VALUATED");
-            valuationAssignmentRepository.save(valuationAssignment);
+            valuationRequestDetailRepository.save(valuationRequestDetail);
         }
 
         return updatedAssignment;

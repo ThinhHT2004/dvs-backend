@@ -1,5 +1,9 @@
 package com.group5.dvs_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +17,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class ValuationAssignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +31,7 @@ public class ValuationAssignment {
     @JoinColumn(name = "id_valuation_staff", nullable = false)
     private Staff valuationStaff;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "id_valuation_request_detail")
     private ValuationRequestDetail valuationRequestDetail;
 
@@ -47,6 +54,12 @@ public class ValuationAssignment {
 
     public ValuationAssignment(Staff valuationStaff, String status) {
         this.valuationStaff = valuationStaff;
+        this.status = status;
+    }
+
+    public ValuationAssignment(Staff valuationStaff, ValuationRequestDetail valuationRequestDetail, String status) {
+        this.valuationStaff = valuationStaff;
+        this.valuationRequestDetail = valuationRequestDetail;
         this.status = status;
     }
 }

@@ -1,7 +1,9 @@
 package com.group5.dvs_backend.controller;
 
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,5 +67,15 @@ public class ValuationRequestController {
     @GetMapping("/valuation-request/status/{status}")
     public ResponseEntity<List<ValuationRequest>> getValuationRequestByStatus(@PathVariable("status") String status){
         return ResponseEntity.ok(valuationRequestService.getRequestsByStatus(status));
+    }
+
+    @GetMapping("/valuation-request/status/{status1}/{status2}")
+    public ResponseEntity<List<ValuationRequest>> getValuationRequestByTwoStatus(@PathVariable("status1") String status1, @PathVariable("status2") String status2){
+        return ResponseEntity.ok(valuationRequestService.getRequestsByTwoStatus(status1, status2));
+    }
+
+    @PutMapping("/create-appointment")
+    public ValuationRequest createAppointment(@RequestParam("id") Long id, @RequestParam("receiveDate") String date){
+        return valuationRequestService.createAppointment(id, date);
     }
 }

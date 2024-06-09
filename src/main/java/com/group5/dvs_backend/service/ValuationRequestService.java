@@ -1,5 +1,7 @@
 package com.group5.dvs_backend.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -113,5 +115,28 @@ public class ValuationRequestService {
 
     public List<ValuationRequest> getValuationRequestByStaffIdNotStatus(Long id, String status){
         return valuationRequestRepository.findByConsultingStaffAndNotStatus(id, status);
+    }
+
+    public List<ValuationRequest> getRequestsByTwoStatus(String status1, String status2) {
+        return valuationRequestRepository.findByTwoStatus(status1, status2);
+    }
+
+    public ValuationRequest createAppointment(Long id, String date){
+
+        ValuationRequest valuationRequest = valuationRequestRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No Valuation Request Found"));
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            valuationRequest.setReceivingDate(simpleDateFormat.parse(date));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        formRepository.save(new Form(id, "RECEIPT", "Receive Samples and Results", new Date()));
+
+        return valuationRequestRepository.save(valuationRequest);
     }
 }

@@ -23,7 +23,7 @@ public class ValuationReport {
     @Column(name = "final_price")
     private Double finalPrice;
     @Column(name = "created_date")
-    private Date craetedDate;
+    private Date createdDate;
 
 
     @Column(name = "carat_weight")

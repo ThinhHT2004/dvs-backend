@@ -1,5 +1,7 @@
 package com.group5.dvs_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,9 +17,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "customer")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "first_name")
@@ -38,7 +45,7 @@ public class Customer {
     @Column(name = "dob",nullable = false)
     private Date dob;
 
-    @OneToOne(mappedBy = "customer",fetch = FetchType.LAZY)
-    private ValuationRequest valuation_request;
+    @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
+    private List<ValuationRequest> valuation_request;
 
 }

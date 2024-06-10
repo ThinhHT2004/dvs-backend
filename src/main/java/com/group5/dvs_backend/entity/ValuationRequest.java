@@ -21,7 +21,8 @@ import lombok.Setter;
 @Setter
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
+        property = "id",
+        scope = ValuationRequest.class
 )
 public class ValuationRequest {
     @Id

@@ -86,8 +86,9 @@ public class ValuationAssignmentService {
 
     public ValuationAssignment valuate(ValuationAssignment valuationAssignment){
         valuationAssignment.setStatus("VALUATED");
+        System.out.println("Set Status");
         ValuationAssignment updatedAssignment = valuationAssignmentRepository.save(valuationAssignment);
-
+        System.out.println("Save Database");
         List<ValuationAssignment> list = valuationAssignmentRepository
                 .findByValuationRequestDetailId(updatedAssignment.getValuationRequestDetail().getId());
 

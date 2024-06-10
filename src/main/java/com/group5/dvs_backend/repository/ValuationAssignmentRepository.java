@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ValuationAssignmentRepository extends JpaRepository<ValuationAssignment, Long> {
 
-    @Query("SELECT va FROM ValuationAssignment va WHERE va.valuationStaff.id = ?1 AND va.status = 'ASSIGNED'")
+    @Query("SELECT va FROM ValuationAssignment va WHERE va.valuationStaff.id = ?1 AND va.status != 'APPROVED'")
     List<ValuationAssignment> findByValuationStaffId(Long id);
 
     @Query("SELECT va FROM ValuationAssignment va WHERE va.valuationRequestDetail.id = ?1")

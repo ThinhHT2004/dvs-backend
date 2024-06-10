@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @NoArgsConstructor
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
+        property = "id",
+        scope = ValuationAssignment.class
 )
 public class ValuationAssignment {
     @Id

@@ -81,6 +81,10 @@ public class ValuationRequestService {
         return valuationRequestRepository.findByConsultingStaffIdAndStatus(consultingStaffId, status);
     }
 
+    public List<ValuationRequest> getRequestsByTwoStatusAndConsultingStaffId(Long consultingStaffId, String status1, String status2) {
+        return valuationRequestRepository.findByConsultingStaffIdAndTwoStatus(consultingStaffId, status1, status2);
+    }
+
     // tao bien lai
     public void createReceipt(List<ValuationRequestDetail> valuationRequestDetails, Long valuationRequestId) {
         if (valuationRequestDetails.isEmpty()) {
@@ -135,7 +139,7 @@ public class ValuationRequestService {
             throw new RuntimeException(e);
         }
 
-        formRepository.save(new Form(id, "RECEIPT", "Receive Samples and Results", new Date()));
+        formRepository.save(new Form(id, "HAND-OVER", "Receive Samples and Results", new Date()));
 
         return valuationRequestRepository.save(valuationRequest);
     }

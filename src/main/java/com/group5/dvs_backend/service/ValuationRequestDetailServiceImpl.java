@@ -1,8 +1,10 @@
 package com.group5.dvs_backend.service;
 
+import com.group5.dvs_backend.entity.ValuationAssignment;
 import com.group5.dvs_backend.entity.ValuationRequest;
 import com.group5.dvs_backend.entity.ValuationRequestDetail;
 import com.group5.dvs_backend.exception.ResourceNotFoundException;
+import com.group5.dvs_backend.repository.ValuationAssignmentRepository;
 import com.group5.dvs_backend.repository.ValuationRequestDetailRepository;
 import com.group5.dvs_backend.repository.ValuationRequestRepository;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,8 @@ public class ValuationRequestDetailServiceImpl implements ValuationRequestDetail
     private ValuationRequestDetailRepository valuationRequestDetailRepository;
     @Autowired
     private ValuationRequestRepository valuationRequestRepository;
+    @Autowired
+    private ValuationAssignmentRepository valuationAssignmentRepository;
     @Override
     public List<ValuationRequestDetail> getValuationRequestDetailByStatus(String status) {
 
@@ -33,6 +37,11 @@ public class ValuationRequestDetailServiceImpl implements ValuationRequestDetail
 
 
         ValuationRequestDetail updated = valuationRequestDetailRepository.save(valuationRequestDetail);
+
+        for (ValuationAssignment valuationAssignment : valuationRequestDetail.getAssignmentList()){
+            valuationAssignment.setStatus("APPROVED");
+            valuationAssignmentRepository.save(valuationAssignment);
+        }
 
         ValuationRequest valuationRequest = valuationRequestRepository
                 .findById(valuationRequestDetail.getValuationRequestId())

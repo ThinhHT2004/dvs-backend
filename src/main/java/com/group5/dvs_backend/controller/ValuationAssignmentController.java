@@ -33,6 +33,7 @@ public class ValuationAssignmentController {
 
     @PutMapping("/update")
     public ValuationAssignment valuateSample(@RequestBody ValuationAssignment valuationAssignment){
+        System.out.println("Call Api");
         return valuationAssignmentService.valuate(valuationAssignment);
     }
 

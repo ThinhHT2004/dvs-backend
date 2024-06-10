@@ -58,6 +58,13 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.getAcceptedRequestsByConsultingStaffId(id, status));
     }
 
+    @GetMapping("/valuation-request/{staffId}/{status1}/{status2}")
+    public ResponseEntity<List<ValuationRequest>> getValuationRequestByTwoStatusAndStaffId(@PathVariable("staffId") Long id,
+                                                                                        @PathVariable("status1") String status1,
+                                                                                        @PathVariable("status2") String status2){
+        return ResponseEntity.ok(valuationRequestService.getRequestsByTwoStatusAndConsultingStaffId(id, status1, status2));
+    }
+
     @GetMapping("/valuation-request/not/{staffId}/{status}")
     public ResponseEntity<List<ValuationRequest>> getValuationRequestByStaffIdWithNotStatus(@PathVariable("staffId") Long id,
                                                                                             @PathVariable("status") String status){

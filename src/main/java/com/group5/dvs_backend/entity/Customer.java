@@ -19,7 +19,8 @@ import java.util.List;
 @Table(name = "customer")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
+        property = "id",
+        scope = Customer.class
 )
 public class Customer {
     @Id

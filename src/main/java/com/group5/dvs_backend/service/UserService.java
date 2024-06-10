@@ -2,7 +2,9 @@ package com.group5.dvs_backend.service;
 
 import com.group5.dvs_backend.entity.Account;
 import com.group5.dvs_backend.entity.Auth;
+import com.group5.dvs_backend.entity.AuthResponse;
 import com.group5.dvs_backend.entity.Customer;
+import com.group5.dvs_backend.exception.ResourceNotFoundException;
 import com.group5.dvs_backend.repository.AccountRepository;
 import com.group5.dvs_backend.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -56,14 +60,28 @@ public class UserService {
 
         return savedAccount;
     }
-    public Account loginUser(Auth auth){
-        Account account = accountRepository.findByUsername(auth.getUsername())
-                .orElseThrow(() -> new RuntimeException("Username not found"));
-
-        if(!passwordEncoder.matches(auth.getPassword(),account.getPassword())){
-            throw new RuntimeException("Wrong password!");
+    public AuthResponse loginUser(Auth auth){
+        AuthResponse authResponse = new AuthResponse();
+        Optional<Account> account = accountRepository.findByUsername(auth.getUsername());
+        Account respAccount = null;
+        if (account.isPresent()){
+            respAccount = account.get();
+            if(!passwordEncoder.matches(auth.getPassword(),respAccount.getPassword())){
+                authResponse.setMess("Wrong password!");
+                authResponse.setId(-1L);
+                authResponse.setRole("");
+            }else {
+                authResponse.setMess("Login Successfully");
+                authResponse.setId(respAccount.getId());
+                authResponse.setRole(respAccount.getRole());
+            }
+        }else{
+            authResponse.setMess("Wrong Username!");
+            authResponse.setId(-1L);
+            authResponse.setRole("");
         }
-        return account;
+
+        return authResponse;
     }
 
 

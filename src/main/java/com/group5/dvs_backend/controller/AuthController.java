@@ -3,6 +3,7 @@ package com.group5.dvs_backend.controller;
 
 import com.group5.dvs_backend.entity.Account;
 import com.group5.dvs_backend.entity.Auth;
+import com.group5.dvs_backend.entity.AuthResponse;
 import com.group5.dvs_backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Account login(@RequestBody Auth auth) {
+    public AuthResponse login(@RequestBody Auth auth) {
         return userService.loginUser(auth);
     }
 

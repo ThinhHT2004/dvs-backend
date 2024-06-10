@@ -17,11 +17,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id",
-        scope = ValuationAssignment.class
-)
 public class ValuationAssignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +27,8 @@ public class ValuationAssignment {
     @JoinColumn(name = "id_valuation_staff", nullable = false)
     private Staff valuationStaff;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "id_valuation_request_detail")
-    private ValuationRequestDetail valuationRequestDetail;
+    @Column(name = "id_valuation_request_detail")
+    private Long valuationRequestDetailId;
 
 
     @Column(name = "status")
@@ -58,9 +52,17 @@ public class ValuationAssignment {
         this.status = status;
     }
 
-    public ValuationAssignment(Staff valuationStaff, ValuationRequestDetail valuationRequestDetail, String status) {
+    public ValuationAssignment(Staff valuationStaff, Long valuationRequestDetailId, String status, float price, String note) {
         this.valuationStaff = valuationStaff;
-        this.valuationRequestDetail = valuationRequestDetail;
+        this.valuationRequestDetailId = valuationRequestDetailId;
+        this.status = status;
+        this.price = price;
+        this.note = note;
+    }
+
+    public ValuationAssignment(Staff valuationStaff, Long valuationRequestDetailId, String status) {
+        this.valuationStaff = valuationStaff;
+        this.valuationRequestDetailId = valuationRequestDetailId;
         this.status = status;
     }
 }

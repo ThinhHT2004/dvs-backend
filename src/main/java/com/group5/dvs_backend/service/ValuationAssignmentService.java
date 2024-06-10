@@ -58,7 +58,7 @@ public class ValuationAssignmentService {
 
         List<ValuationAssignment> valuationAssignments = new ArrayList<>();
         for(Staff staff : list){
-            valuationAssignments.add(new ValuationAssignment(staff, valuationRequestDetail,"ASSIGNED"));
+            valuationAssignments.add(new ValuationAssignment(staff, valuationDetailId,"ASSIGNED"));
         }
 
         valuationRequestDetail.setAssignmentList(valuationAssignments);
@@ -77,9 +77,9 @@ public class ValuationAssignmentService {
         List<ValuationAssignment> valuationAssignments = valuationAssignmentRepository.findByValuationStaffId(id);
         for (ValuationAssignment valuationAssignment : valuationAssignments){
             ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
-                    .findById(valuationAssignment.getValuationRequestDetail().getId())
+                    .findById(valuationAssignment.getValuationRequestDetailId())
                     .orElseThrow(() -> new ResourceNotFoundException("No Valuation Request Detail Found"));
-            valuationAssignment.setValuationRequestDetail(valuationRequestDetail);
+            valuationAssignment.setValuationRequestDetailId(valuationRequestDetail.getId());
         }
         return valuationAssignments;
     }
@@ -90,7 +90,7 @@ public class ValuationAssignmentService {
         ValuationAssignment updatedAssignment = valuationAssignmentRepository.save(valuationAssignment);
         System.out.println("Save Database");
         List<ValuationAssignment> list = valuationAssignmentRepository
-                .findByValuationRequestDetailId(updatedAssignment.getValuationRequestDetail().getId());
+                .findByValuationRequestDetailId(updatedAssignment.getValuationRequestDetailId());
 
         boolean check = true;
 
@@ -103,7 +103,7 @@ public class ValuationAssignmentService {
 
         if (check){
             ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
-                    .findById(updatedAssignment.getValuationRequestDetail().getId())
+                    .findById(updatedAssignment.getValuationRequestDetailId())
                     .orElseThrow(() -> new ResourceNotFoundException("No Valuation Request Detail found"));
 
             valuationRequestDetail.setStatus("VALUATED");

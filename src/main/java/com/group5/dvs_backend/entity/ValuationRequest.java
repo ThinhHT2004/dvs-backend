@@ -4,9 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,11 +17,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id",
-        scope = ValuationRequest.class
-)
 public class ValuationRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,20 +42,20 @@ public class ValuationRequest {
     @Column(name = "request_date")
     private java.util.Date requestDate;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "id_customer")
     private Customer customer;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "id_service", nullable = false)
     private Service service;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_valuation_request")
     private List<ValuationRequestDetail> valuationRequestDetailList;
 
-    public void addValuationRequestDetail(ValuationRequestDetail valuationRequestDetail){
-        if (valuationRequestDetailList == null){
+    public void addValuationRequestDetail(ValuationRequestDetail valuationRequestDetail) {
+        if (valuationRequestDetailList == null) {
             valuationRequestDetailList = new ArrayList<>();
         }
         valuationRequestDetailList.add(valuationRequestDetail);

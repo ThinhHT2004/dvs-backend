@@ -8,4 +8,5 @@ public interface ValuationRequestDetailService {
     List<ValuationRequestDetail> getValuationRequestDetailByStatus(String status);
 
     ValuationRequestDetail updateRequest(ValuationRequestDetail valuationRequestDetail);
+    ValuationRequestDetail getById(Long id);
 }

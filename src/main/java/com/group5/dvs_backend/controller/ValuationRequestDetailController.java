@@ -1,8 +1,11 @@
 package com.group5.dvs_backend.controller;
 
+import com.group5.dvs_backend.entity.ValuationRequest;
 import com.group5.dvs_backend.entity.ValuationRequestDetail;
 import com.group5.dvs_backend.service.ValuationRequestDetailService;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,5 +28,9 @@ public class ValuationRequestDetailController {
         return valuationRequestDetailService.updateRequest(valuationRequestDetail);
     }
 
+    @GetMapping("/find/{id}")
+    public ResponseEntity<ValuationRequestDetail> getById(@PathVariable("id") Long id){
+        return ResponseEntity.ok(valuationRequestDetailService.getById(id));
+    }
 
 }

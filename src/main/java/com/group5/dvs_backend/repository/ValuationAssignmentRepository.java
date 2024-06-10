@@ -11,6 +11,6 @@ public interface ValuationAssignmentRepository extends JpaRepository<ValuationAs
     @Query("SELECT va FROM ValuationAssignment va WHERE va.valuationStaff.id = ?1 AND va.status != 'APPROVED'")
     List<ValuationAssignment> findByValuationStaffId(Long id);
 
-    @Query("SELECT va FROM ValuationAssignment va WHERE va.valuationRequestDetail.id = ?1")
+    @Query("SELECT va FROM ValuationAssignment va WHERE va.valuationRequestDetailId = ?1")
     List<ValuationAssignment> findByValuationRequestDetailId(Long id);
 }

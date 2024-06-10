@@ -15,11 +15,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id",
-        scope = ValuationRequestDetail.class
-)
 public class ValuationRequestDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +25,8 @@ public class ValuationRequestDetail {
     @JoinColumn(name = "id_valuation_report", nullable = false)
     private ValuationReport valuationReport;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "valuationRequestDetail")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "id_valuation_request_detail")
     private List<ValuationAssignment> assignmentList;
 
     @Column(name = "id_valuation_request")

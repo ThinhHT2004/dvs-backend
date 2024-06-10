@@ -64,4 +64,13 @@ public class ValuationRequestDetailServiceImpl implements ValuationRequestDetail
 
         return updated;
     }
+
+    @Override
+    public ValuationRequestDetail getById(Long id) {
+        return valuationRequestDetailRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No Sample Found"));
+    }
+
+
 }

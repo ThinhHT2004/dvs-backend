@@ -20,6 +20,7 @@ public class ValuationReport {
     @Column(name = "id")
     private Long id;
 
+
     @Column(name = "final_price")
     private Double finalPrice;
     @Column(name = "created_date")
@@ -44,6 +45,22 @@ public class ValuationReport {
     private String shape;
     @Column(name = "measurement")
     private String measurement;
+
+    @Column(name = "culet")
+    private String culet;
+
+    @Column(name = "girdle")
+    private String girdle;
+
+    @Column(name = "table_attribute")
+    private String table;
+
+    @Column(name = "depth")
+    private String depth;
+
     @Column(name = "proportion")
     private String proportion;
+
+    @Column(name = "characteristic")
+    private String characteristic;
 }

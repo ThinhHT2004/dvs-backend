@@ -1,6 +1,8 @@
 package com.group5.dvs_backend.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -20,22 +22,27 @@ public class CloudinaryService {
         this.valuationReportServiceImpl = valuationReportServiceImpl;
     }
 
-    public Map uploadToCloudinary(MultipartFile file, Long valuationReportId) {
+    public List<Map> uploadToCloudinary(MultipartFile file1, MultipartFile file2, Long valuationReportId) {
         try {
             /*
              * Map chứa thông tin về file đã được tải lên. Các thông tin này
              * có thể bao gồm URL của file (url), kích thước của file (bytes),
              * định dạng của file (format), v.v
              */
-            Map data = this.cloudinary.uploader().upload(file.getBytes(), Map.of());
-
+            Map proportion = this.cloudinary.uploader().upload(file1.getBytes(), Map.of());
+            Map characteristic = this.cloudinary.uploader().upload(file2.getBytes(), Map.of());
+            List<Map> maps = new ArrayList<>();
+            maps.add(proportion);
+            maps.add(characteristic);
             // Lưu URL của ảnh xuống cơ sở dữ liệu
-            String imageUrl = (String) data.get("url");
+            String proportionUrl = (String) proportion.get("url");
+            String characteristicUrl = (String) characteristic.get("url");
             ValuationReport valuationReport = valuationReportServiceImpl.findById(valuationReportId);
-            valuationReport.setProportion(imageUrl);
+            valuationReport.setProportion(proportionUrl);
+            valuationReport.setCharacteristic(characteristicUrl);
             valuationReportServiceImpl.save(valuationReport);
 
-            return data;
+            return maps;
         } catch (IOException io) {
             throw new RuntimeException("Image upload fail");
         }

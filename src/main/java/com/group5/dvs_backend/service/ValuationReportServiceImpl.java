@@ -47,6 +47,10 @@ public class ValuationReportServiceImpl implements ValuationReportService {
                 valuationReport.setMeasurement(updatedValuationReport.getMeasurement());
                 valuationReport.setProportion(updatedValuationReport.getProportion());
                 valuationReport.setSymmetry(updatedValuationReport.getSymmetry());
+                valuationReport.setGirdle(updatedValuationReport.getGirdle());
+                valuationReport.setTable(updatedValuationReport.getTable());
+                valuationReport.setDepth(updatedValuationReport.getDepth());
+                valuationReport.setCulet(updatedValuationReport.getCulet());
 
                 valuationRequestDetail.setStatus("FILLED");
                 valuationRequest.setStatus("PROCESSING");

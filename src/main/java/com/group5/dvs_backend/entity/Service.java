@@ -24,7 +24,7 @@ public class Service {
     private String name;
 
     @Column(name = "duration")
-    private String duration;
+    private Integer duration;
 
     @Column(name = "active")
     private boolean active;

@@ -2,30 +2,42 @@ package com.group5.dvs_backend.service;
 
 import com.group5.dvs_backend.entity.Staff;
 import com.group5.dvs_backend.entity.ValuationAssignment;
+import com.group5.dvs_backend.entity.ValuationRequest;
 import com.group5.dvs_backend.entity.ValuationRequestDetail;
 import com.group5.dvs_backend.exception.ResourceNotFoundException;
 import com.group5.dvs_backend.repository.StaffRepository;
 import com.group5.dvs_backend.repository.ValuationAssignmentRepository;
 import com.group5.dvs_backend.repository.ValuationRequestDetailRepository;
+import com.group5.dvs_backend.repository.ValuationRequestRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ValuationAssignmentService {
 
+    @Autowired
     private final ValuationAssignmentRepository valuationAssignmentRepository;
+    @Autowired
     private final StaffRepository staffRepository;
+    @Autowired
     private final ValuationRequestDetailRepository valuationRequestDetailRepository;
+    @Autowired
+    private final ValuationRequestRepository valuationRequestRepository;
 
-    public ValuationAssignmentService(ValuationAssignmentRepository valuationAssignmentRepository,
-            StaffRepository staffRepository, ValuationRequestDetailRepository valuationRequestDetailRepository) {
-        this.valuationAssignmentRepository = valuationAssignmentRepository;
-        this.staffRepository = staffRepository;
-        this.valuationRequestDetailRepository = valuationRequestDetailRepository;
-    }
+//    public ValuationAssignmentService(ValuationAssignmentRepository valuationAssignmentRepository,
+//            StaffRepository staffRepository, ValuationRequestDetailRepository valuationRequestDetailRepository) {
+//        this.valuationAssignmentRepository = valuationAssignmentRepository;
+//        this.staffRepository = staffRepository;
+//        this.valuationRequestDetailRepository = valuationRequestDetailRepository;
+//    }
 
 //    @Transactional
 //    public String assignStaffForValuation(ValuationRequestDetail valuationRequestDetail) {
@@ -51,14 +63,23 @@ public class ValuationAssignmentService {
 //        valuationAssignmentRepository.save(valuationAssignment);
 //    }
 
-    public String assignStaffs(List<Staff> list, Long valuationDetailId){
+    public String assignStaffs(List<Staff> list, Long valuationDetailId, Long requestId){
         ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
                 .findById(valuationDetailId)
                 .orElseThrow(() -> new ResourceNotFoundException("Valuation Request Detail not found"));
+        ValuationRequest valuationRequest = valuationRequestRepository
+                .findById(requestId)
+                .orElseThrow(() -> new ResourceNotFoundException("Valuation Request not found"));
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(valuationRequest.getReceivingDate());
+        calendar.add(Calendar.HOUR_OF_DAY, -1);
+
+        Date deadline = calendar.getTime();
 
         List<ValuationAssignment> valuationAssignments = new ArrayList<>();
         for(Staff staff : list){
-            valuationAssignments.add(new ValuationAssignment(staff, valuationDetailId,"ASSIGNED"));
+            valuationAssignments.add(new ValuationAssignment(staff, valuationDetailId,"ASSIGNED", deadline));
         }
 
         valuationRequestDetail.setAssignmentList(valuationAssignments);

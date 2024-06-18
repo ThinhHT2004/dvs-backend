@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "valuation_assignment")
 @Getter
@@ -40,6 +42,9 @@ public class ValuationAssignment {
     @Column(name = "note")
     private String note;
 
+    @Column(name = "deadline")
+    private Date deadline;
+
     public ValuationAssignment(Staff valuationStaff, String status, float price, String note) {
         this.valuationStaff = valuationStaff;
         this.status = status;
@@ -60,9 +65,10 @@ public class ValuationAssignment {
         this.note = note;
     }
 
-    public ValuationAssignment(Staff valuationStaff, Long valuationRequestDetailId, String status) {
+    public ValuationAssignment(Staff valuationStaff, Long valuationRequestDetailId, String status, Date deadline) {
         this.valuationStaff = valuationStaff;
         this.valuationRequestDetailId = valuationRequestDetailId;
         this.status = status;
+        this.deadline = deadline;
     }
 }

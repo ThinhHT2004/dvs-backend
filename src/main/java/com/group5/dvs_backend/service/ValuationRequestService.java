@@ -45,31 +45,6 @@ public class ValuationRequestService {
             ValuationReport valuationReport = valuationReportRepository.save(new ValuationReport());
             valuationRequest.addValuationRequestDetail(new ValuationRequestDetail(valuationReport, "WAITING",0.0, false));
         }
-        Integer duration = valuationRequest.getService().getDuration();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(valuationRequest.getAppointmentDate());
-        calendar.add(Calendar.HOUR_OF_DAY, duration);
-        Date receiveDate = calendar.getTime();
-
-        calendar.setTime(valuationRequest.getAppointmentDate());
-        calendar.set(Calendar.HOUR_OF_DAY, 17);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-
-        Date workingDate = calendar.getTime();
-        System.out.println("Receive Date: " + receiveDate);
-        System.out.println("Working Date: "+ workingDate);
-        if (receiveDate.compareTo(workingDate) > 0){
-            calendar.setTime(valuationRequest.getAppointmentDate());
-            calendar.add(Calendar.DATE, 1);
-            calendar.set(Calendar.HOUR_OF_DAY, 9);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            receiveDate = calendar.getTime();
-        }
-
-        valuationRequest.setReceivingDate(receiveDate);
         valuationRequest.setStatus("WAITING");
         valuationRequestRepository.save(valuationRequest);
     }
@@ -90,6 +65,29 @@ public class ValuationRequestService {
         if ("Waiting".equalsIgnoreCase(valuationRequest.getStatus())) {
             valuationRequest.setConsultingStaffId(consultingStaffId);
             valuationRequest.setStatus("ACCEPTED");
+            Integer duration = valuationRequest.getService().getDuration();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(valuationRequest.getAppointmentDate());
+            calendar.add(Calendar.HOUR_OF_DAY, duration);
+            Date receiveDate = calendar.getTime();
+
+            calendar.setTime(valuationRequest.getAppointmentDate());
+            calendar.set(Calendar.HOUR_OF_DAY, 17);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+
+            Date workingDate = calendar.getTime();
+            if (receiveDate.compareTo(workingDate) > 0){
+                calendar.setTime(valuationRequest.getAppointmentDate());
+                calendar.add(Calendar.DATE, 1);
+                calendar.set(Calendar.HOUR_OF_DAY, 9);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                receiveDate = calendar.getTime();
+            }
+
+            valuationRequest.setReceivingDate(receiveDate);
             valuationRequestRepository.save(valuationRequest);
         } else {
             throw new IllegalStateException("Request is not in 'Waiting' state");

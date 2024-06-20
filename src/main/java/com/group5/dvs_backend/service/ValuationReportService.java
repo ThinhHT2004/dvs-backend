@@ -9,4 +9,6 @@ public interface ValuationReportService {
     ValuationReport findById(Long id);
 
     ValuationReport save(ValuationReport valuationReport);
+
+    ValuationReport findDiamondByValuationReportId(Long valuationReportId);
 }

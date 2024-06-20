@@ -37,6 +37,9 @@ public class Diamond {
     @Column(name = "color")
     private String color;
 
+    @Column(name = "cut")
+    private String cut;
+
     @Column(name = "symmetry")
     private String symmetry;
 

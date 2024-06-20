@@ -2,6 +2,7 @@ package com.group5.dvs_backend.controller;
 
 
 import com.group5.dvs_backend.entity.Customer;
+import com.group5.dvs_backend.entity.ValuationRequest;
 import com.group5.dvs_backend.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class CustomerController {
 
     }
     @GetMapping("/request/{id_customer}")
-    public List<Customer> getRequestById(@PathVariable Long id_customer){
+    public List<ValuationRequest> getRequestById(@PathVariable Long id_customer){
         return customerService.getRequestByCustomerId(id_customer);
 
     }

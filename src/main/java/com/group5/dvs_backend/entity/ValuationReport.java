@@ -43,6 +43,10 @@ public class ValuationReport {
     private String fluorescence;
     @Column(name = "shape")
     private String shape;
+
+    @Column(name = "cut")
+    private String cut;
+
     @Column(name = "measurement")
     private String measurement;
 
@@ -63,4 +67,7 @@ public class ValuationReport {
 
     @Column(name = "characteristic")
     private String characteristic;
+
+    @Column(name = "image")
+    private String image;
 }

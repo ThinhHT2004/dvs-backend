@@ -51,6 +51,8 @@ public class ValuationReportServiceImpl implements ValuationReportService {
                 valuationReport.setTable(updatedValuationReport.getTable());
                 valuationReport.setDepth(updatedValuationReport.getDepth());
                 valuationReport.setCulet(updatedValuationReport.getCulet());
+                valuationReport.setCut(updatedValuationReport.getCut());
+                valuationReport.setImage(updatedValuationReport.getImage());
 
                 valuationRequestDetail.setStatus("FILLED");
                 valuationRequest.setStatus("PROCESSING");

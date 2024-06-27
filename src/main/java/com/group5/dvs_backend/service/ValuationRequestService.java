@@ -43,6 +43,9 @@ public class ValuationRequestService {
     public void saveValuationRequestInfor(ValuationRequest valuationRequest) {
         for (int i = 0; i < valuationRequest.getQuantity(); i++) {
             ValuationReport valuationReport = valuationReportRepository.save(new ValuationReport());
+            Long id = valuationReport.getId();
+            String labId = String.format("%06d", id);
+            valuationReport.setLabId(labId);
             valuationRequest.addValuationRequestDetail(new ValuationRequestDetail(valuationReport, "WAITING",0.0, false));
         }
         valuationRequest.setStatus("WAITING");

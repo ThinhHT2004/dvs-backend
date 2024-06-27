@@ -10,5 +10,5 @@ public interface ValuationReportService {
 
     ValuationReport save(ValuationReport valuationReport);
 
-    ValuationReport findDiamondByValuationReportId(Long valuationReportId);
+    ValuationReport findDiamondByValuationReportId(String valuationReportId);
 }

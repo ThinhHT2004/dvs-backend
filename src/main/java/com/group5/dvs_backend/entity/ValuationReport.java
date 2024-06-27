@@ -20,6 +20,8 @@ public class ValuationReport {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "id_lab")
+    private String labId;
 
     @Column(name = "final_price")
     private Double finalPrice;
@@ -70,4 +72,7 @@ public class ValuationReport {
 
     @Column(name = "image")
     private String image;
+
+    @Column(name = "active")
+    private Boolean active;
 }

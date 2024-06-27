@@ -73,8 +73,8 @@ public class ValuationReportServiceImpl implements ValuationReportService {
                 return valuationReportRepository.save(valuationReport);
         }
         @Override
-        public ValuationReport findDiamondByValuationReportId(Long valuationReportId) {
-                return valuationReportRepository.findById(valuationReportId).orElse(null);
+        public ValuationReport findDiamondByValuationReportId(String valuationReportId) {
+                return valuationReportRepository.findByLabId(valuationReportId).orElse(null);
         }
 
 }

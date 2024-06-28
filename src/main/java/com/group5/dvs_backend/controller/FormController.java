@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/forms")
 @AllArgsConstructor
+@CrossOrigin
 public class FormController {
 
     private FormService formService;

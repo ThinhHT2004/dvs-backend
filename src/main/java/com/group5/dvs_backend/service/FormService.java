@@ -9,4 +9,10 @@ public interface FormService {
     Form createForm(Form form);
 
     Form createReceipt(List<ValuationRequestDetail> valuationRequestDetails, Long valuationRequestId);
+
+    List<Form> getWaitingForms();
+
+    Form approveForm(Long formId);
+
+    Form denyForm(Long formId);
 }

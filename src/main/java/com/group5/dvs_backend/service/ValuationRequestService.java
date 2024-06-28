@@ -112,6 +112,10 @@ public class ValuationRequestService {
         return valuationRequestRepository.findByConsultingStaffIdAndTwoStatus(consultingStaffId, status1, status2);
     }
 
+    public List<ValuationRequest> getRequestsByThreeStatusAndConsultingStaffId(Long consultingStaffId, String status1, String status2, String status3) {
+        return valuationRequestRepository.findByConsultingStaffIdAndThreeStatus(consultingStaffId, status1, status2, status3);
+    }
+
     // tao bien lai
 
 

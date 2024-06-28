@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import com.group5.dvs_backend.entity.ValuationRequest;
@@ -55,11 +56,12 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.getAcceptedRequestsByConsultingStaffId(id, status));
     }
 
-    @GetMapping("/valuation-request/{staffId}/{status1}/{status2}")
+    @GetMapping("/valuation-request/{staffId}/{status1}/{status2}/{status3}")
     public ResponseEntity<List<ValuationRequest>> getValuationRequestByTwoStatusAndStaffId(@PathVariable("staffId") Long id,
-                                                                                        @PathVariable("status1") String status1,
-                                                                                        @PathVariable("status2") String status2){
-        return ResponseEntity.ok(valuationRequestService.getRequestsByTwoStatusAndConsultingStaffId(id, status1, status2));
+                                                                                           @PathVariable("status1") String status1,
+                                                                                           @PathVariable("status2") String status2,
+                                                                                           @PathVariable("status3") String status3){
+        return ResponseEntity.ok(valuationRequestService.getRequestsByThreeStatusAndConsultingStaffId(id, status1, status2, status3));
     }
 
     @GetMapping("/valuation-request/not/{staffId}/{status}")

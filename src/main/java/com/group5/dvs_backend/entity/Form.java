@@ -33,10 +33,21 @@ public class Form {
     @Column(name = "created_date")
     private Date createdDate;
 
+    @Column(name = "status")
+    private String status;
+
     public Form(Long valuationRequestId, String formType, String note, Date createdDate) {
         this.valuationRequestId = valuationRequestId;
         this.formType = formType;
         this.note = note;
         this.createdDate = createdDate;
+    }
+
+    public Form(Long valuationRequestId, String formType, String note, Date createdDate, String status) {
+        this.valuationRequestId = valuationRequestId;
+        this.formType = formType;
+        this.note = note;
+        this.createdDate = createdDate;
+        this.status = status;
     }
 }

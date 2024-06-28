@@ -113,28 +113,7 @@ public class ValuationRequestService {
     }
 
     // tao bien lai
-    public void createReceipt(List<ValuationRequestDetail> valuationRequestDetails, Long valuationRequestId) {
-        if (valuationRequestDetails.isEmpty()) {
-            throw new IllegalArgumentException("The list of ValuationRequestDetails cannot be empty.");
-        }
-        ValuationRequest valuationRequest = valuationRequestRepository
-                .findById(valuationRequestId)
-                .orElseThrow(() -> new RuntimeException("No Valuation Request Found"));
 
-        for (ValuationRequestDetail detail : valuationRequestDetails) {
-            ValuationRequestDetail existingDetail = valuationRequestDetailRepository.findById(detail.getId())
-                    .orElseThrow(() -> new ResourceNotFoundException(
-                            "ValuationRequestDetail not found for id: " + detail.getId()));
-            existingDetail.setSize(detail.getSize());
-            existingDetail.setStatus("FILLING");
-            valuationRequestDetailRepository.save(existingDetail);
-        }
-
-        formRepository.save(new Form(valuationRequestId, "RECEIPT", "", new Date()));
-
-        valuationRequest.setStatus("RECEIVED");
-        valuationRequestRepository.save(valuationRequest);
-    }
 
     public void cancelRequest(Long id){
         ValuationRequest valuationRequest = valuationRequestRepository

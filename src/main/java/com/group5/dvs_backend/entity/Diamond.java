@@ -52,19 +52,7 @@ public class Diamond {
     @Column(name = "measurement")
     private String measurement;
 
-    @Column(name = "culet")
-    private String culet;
-
-    @Column(name = "girdle")
-    private String girdle;
-
-    @Column(name = "table_attribute")
-    private String tableAttribute;
-
-    @Column(name = "depth")
-    private String depth;
-
-    @Column(name = "proportion")
-    private String proportion;
+    @Column(name = "image")
+    private String image;
 
 }

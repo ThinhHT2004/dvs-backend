@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "service")
@@ -31,4 +32,8 @@ public class Service {
 
     @Column(name = "updated_date")
     private Date updatedDate;
+
+    @OneToMany
+    @JoinColumn( name = "id_service")
+    List<ServicePrice> servicePriceList;
 }

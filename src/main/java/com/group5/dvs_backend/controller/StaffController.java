@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/staff")
+@RequestMapping("/api/staffs")
 @AllArgsConstructor
 @CrossOrigin
 public class StaffController {
@@ -20,7 +20,7 @@ public class StaffController {
         return ResponseEntity.ok(service.getStaffById(id));
     }
 
-    @GetMapping("/staffs")
+    @GetMapping("/")
     public List<Staff> getAll(){
         return service.getAll();
     }

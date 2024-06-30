@@ -31,4 +31,5 @@ public class Service {
 
     @Column(name = "updated_date")
     private Date updatedDate;
+
 }

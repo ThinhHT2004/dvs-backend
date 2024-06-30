@@ -25,5 +25,9 @@ public class AuthController {
         return userService.loginUser(auth);
     }
 
+    @GetMapping("/login/google")
+    public String googleLogin() {
+        return "redirect:/oauth2/authorization/google";
+    }
 
 }

@@ -29,4 +29,11 @@ public class StaffController {
     public List<Staff> getValuationStaffs(){
         return service.getStaffByRole("VALUATION_STAFF");
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Staff> updateStaff(@PathVariable Long id, @RequestBody Staff staff) {
+        staff.setId(id);
+        Staff updatedStaff = service.updateStaff(staff);
+        return ResponseEntity.ok(updatedStaff);
+    }
 }

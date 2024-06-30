@@ -24,4 +24,27 @@ public class ServiceImpl implements com.group5.dvs_backend.service.Service {
     public List<com.group5.dvs_backend.entity.Service> getAll() {
         return serviceRepository.findAll();
     }
+
+    @Override
+    public com.group5.dvs_backend.entity.Service updateService(Long id, com.group5.dvs_backend.service.Service updatedService) {
+        return null;
+    }
+
+
+    @Override
+    public com.group5.dvs_backend.entity.Service updateService(Long id, com.group5.dvs_backend.entity.Service updatedService) {
+        com.group5.dvs_backend.entity.Service existingService = serviceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Service not found with id " + id));
+
+        existingService.setName(updatedService.getName());
+        existingService.setDuration(updatedService.getDuration());
+        existingService.setActive(updatedService.isActive());
+        existingService.setUpdatedDate(new java.util.Date());
+
+        return serviceRepository.save(existingService);
+    }
+
+
+
+
 }

@@ -31,12 +31,37 @@ public class StaffServiceImpl implements StaffService{
     }
 
     @Override
-    public void updateStaff(Staff staff) {
+    public Staff updateStaff(Staff staff) {
 
+        return staff;
     }
 
     @Override
     public List<Staff> getStaffByRole(String role){
         return staffRepository.findByRole(role);
+    }
+
+    @Override
+    public Staff updateStaff̣̣̣̣(Staff updatedStaff) {
+        Optional<Staff> existingStaffOpt =staffRepository.findById(updatedStaff.getId());
+
+        if(existingStaffOpt.isPresent()){
+            Staff existingStaff= existingStaffOpt.get();
+            existingStaff.setFirstName(updatedStaff.getFirstName());
+            existingStaff.setLastName(updatedStaff.getLastName());
+            existingStaff.setEmail(updatedStaff.getEmail());
+            existingStaff.setPhoneNumber(updatedStaff.getPhoneNumber());
+            existingStaff.setAddress(updatedStaff.getAddress());
+            existingStaff.setDob(updatedStaff.getDob());
+            existingStaff.setAccount(updatedStaff.getAccount());
+
+            return staffRepository.save(existingStaff);
+        }else{
+            throw new RuntimeException("Staff not found with id"+ updatedStaff);
+        }
+
+
+
+
     }
 }

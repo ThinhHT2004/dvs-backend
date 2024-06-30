@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
@@ -13,4 +14,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findAllCustomers();
     @Query("SELECT c FROM Customer c JOIN c.valuation_request vr WHERE vr.customer.id =?1")
     List<Customer> findByCustomerId(Long id_customer);
+
+    Optional<Customer> findByEmail(String email);
 }

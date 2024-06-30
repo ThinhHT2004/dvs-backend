@@ -26,8 +26,8 @@ public class AuthController {
     }
 
     @GetMapping("/login/google")
-    public String googleLogin() {
-        return "redirect:/oauth2/authorization/google";
+    public void googleLogin(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/oauth2/authorization/google");
     }
 
 }

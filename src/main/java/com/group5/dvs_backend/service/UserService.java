@@ -96,6 +96,9 @@ public class UserService {
         var token = jwtService.generateToken(account);
         return AuthResponse
                 .builder()
+                .role(account.getRole())
+                .id(account.getId())
+                .mess("Login Successfully")
                 .token(token)
                 .build();
     }

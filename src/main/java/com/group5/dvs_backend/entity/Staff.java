@@ -1,5 +1,6 @@
 package com.group5.dvs_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +17,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class Staff {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -40,5 +40,6 @@ public class Staff {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id", nullable = false)
+    @JsonIgnore
     private Account account;
 }

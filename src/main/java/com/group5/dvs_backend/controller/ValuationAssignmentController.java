@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/assignment")
+@RequestMapping("/api/assignment")
 @AllArgsConstructor
 @CrossOrigin
 public class ValuationAssignmentController {
 
     private ValuationAssignmentService valuationAssignmentService;
 
-    @PutMapping("/assign/{requestId}/{id}")
+    @PutMapping("/assigns/{requestId}/{id}")
     public String assignStaffs(@RequestBody List<Staff> staffs,
                                @PathVariable("id") Long id,
                                @PathVariable("requestId") Long requestId){
-
+        System.out.println(id);
         return valuationAssignmentService.assignStaffs(staffs, id, requestId);
     }
 

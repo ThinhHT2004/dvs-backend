@@ -1,15 +1,16 @@
 package com.group5.dvs_backend.service;
 
-import com.group5.dvs_backend.entity.Account;
-import com.group5.dvs_backend.entity.Auth;
-import com.group5.dvs_backend.entity.AuthResponse;
-import com.group5.dvs_backend.entity.Customer;
+import com.group5.dvs_backend.config.JwtService;
+import com.group5.dvs_backend.entity.*;
 import com.group5.dvs_backend.exception.ResourceNotFoundException;
 import com.group5.dvs_backend.repository.AccountRepository;
 import com.group5.dvs_backend.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,21 +20,19 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class UserService {
 
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
     private CustomerRepository customerRepository;
-
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtService jwtService;
 
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-
-
-
 
 
     public Account registerUser(Auth auth) {
@@ -60,22 +59,23 @@ public class UserService {
 
         return savedAccount;
     }
-    public AuthResponse loginUser(Auth auth){
+
+    public AuthResponse loginUser(Auth auth) {
         AuthResponse authResponse = new AuthResponse();
         Optional<Account> account = accountRepository.findByUsername(auth.getUsername());
         Account respAccount = null;
-        if (account.isPresent()){
+        if (account.isPresent()) {
             respAccount = account.get();
-            if(!passwordEncoder.matches(auth.getPassword(),respAccount.getPassword())){
+            if (!passwordEncoder.matches(auth.getPassword(), respAccount.getPassword())) {
                 authResponse.setMess("Wrong password!");
                 authResponse.setId(-1L);
                 authResponse.setRole("");
-            }else {
+            } else {
                 authResponse.setMess("Login Successfully");
                 authResponse.setId(respAccount.getId());
                 authResponse.setRole(respAccount.getRole());
             }
-        }else{
+        } else {
             authResponse.setMess("Wrong Username!");
             authResponse.setId(-1L);
             authResponse.setRole("");
@@ -84,9 +84,22 @@ public class UserService {
         return authResponse;
     }
 
+    public AuthResponse authenticate(AuthRequest request){
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword()
+                )
+        );
 
-
+        Account account = accountRepository.findByUsername(request.getUsername()).orElseThrow();
+        var token = jwtService.generateToken(account);
+        return AuthResponse
+                .builder()
+                .token(token)
+                .build();
     }
+}
 
 
 

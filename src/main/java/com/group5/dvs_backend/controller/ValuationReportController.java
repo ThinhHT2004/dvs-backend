@@ -16,7 +16,7 @@ public class ValuationReportController {
 
     private ValuationReportService valuationReportService;
 
-    @PutMapping("update/{vrId}/{id}")
+    @PutMapping("/update/{vrId}/{id}")
     public ValuationReport editReport(
             @PathVariable("vrId") Long valuationRequestId,
             @PathVariable("id") Long valuationRequestDetailId,

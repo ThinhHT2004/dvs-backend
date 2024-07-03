@@ -1,6 +1,7 @@
 package com.group5.dvs_backend.controller;
 
 import com.group5.dvs_backend.entity.Service;
+import com.group5.dvs_backend.entity.ServicePrice;
 import com.group5.dvs_backend.service.ServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,21 @@ public class ServiceController {
         return ResponseEntity.ok(service.getAll());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Service> updateService(@PathVariable Long id, @RequestBody Service updatedService) {
-        try {
-            Service service = serviceImpl.updateService(id, (com.group5.dvs_backend.service.Service) updatedService);
-            return ResponseEntity.ok(service);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+    @PutMapping("/update")
+    public ResponseEntity<Service> updateService(@RequestBody Service updatedService) {
+        for (ServicePrice servicePrice: updatedService.getServicePriceList()){
+            System.out.println(servicePrice.getInitPrice());
         }
+        return ResponseEntity.ok(serviceImpl.updateService(updatedService));
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Service> createService(@RequestBody Service service){
+        return ResponseEntity.ok(serviceImpl.create(service));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteService(@PathVariable("id") Long id){
+        return ResponseEntity.ok(serviceImpl.delete(id));
     }
 }

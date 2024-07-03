@@ -5,6 +5,7 @@ import com.group5.dvs_backend.repository.ServiceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,26 +26,26 @@ public class ServiceImpl implements com.group5.dvs_backend.service.Service {
         return serviceRepository.findAll();
     }
 
-    @Override
-    public com.group5.dvs_backend.entity.Service updateService(Long id, com.group5.dvs_backend.service.Service updatedService) {
-        return null;
-    }
 
 
     @Override
-    public com.group5.dvs_backend.entity.Service updateService(Long id, com.group5.dvs_backend.entity.Service updatedService) {
-        com.group5.dvs_backend.entity.Service existingService = serviceRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Service not found with id " + id));
+    public com.group5.dvs_backend.entity.Service updateService(com.group5.dvs_backend.entity.Service updatedService) {
+        updatedService.setUpdatedDate(new Date());
 
-        existingService.setName(updatedService.getName());
-        existingService.setDuration(updatedService.getDuration());
-        existingService.setActive(updatedService.isActive());
-        existingService.setUpdatedDate(new java.util.Date());
-
-        return serviceRepository.save(existingService);
+        return serviceRepository.save(updatedService);
     }
 
+    @Override
+    public com.group5.dvs_backend.entity.Service create(com.group5.dvs_backend.entity.Service service) {
+        service.setUpdatedDate(new Date());
+        return serviceRepository.save(service);
+    }
 
+    @Override
+    public String delete(Long id) {
+        serviceRepository.deleteById(id);
+        return "Service Deleted";
+    }
 
 
 }

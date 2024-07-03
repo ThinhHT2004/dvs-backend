@@ -33,7 +33,16 @@ public class Service {
     @Column(name = "updated_date")
     private Date updatedDate;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn( name = "id_service")
     List<ServicePrice> servicePriceList;
+
+
+    @PostPersist
+    public void setServicePricesAfterSave() {
+        for (ServicePrice price : servicePriceList) {
+            price.setServiceId(id);
+        }
+    }
+
 }

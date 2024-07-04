@@ -2,6 +2,7 @@ package com.group5.dvs_backend.service;
 
 import com.group5.dvs_backend.config.JwtService;
 import com.group5.dvs_backend.entity.*;
+import com.group5.dvs_backend.enums.Roles;
 import com.group5.dvs_backend.exception.ResourceNotFoundException;
 import com.group5.dvs_backend.repository.AccountRepository;
 import com.group5.dvs_backend.repository.CustomerRepository;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -101,6 +103,44 @@ public class UserService {
                 .mess("Login Successfully")
                 .token(token)
                 .build();
+    }
+
+    public RegisterResponse register(RegisterRequest request) {
+        RegisterResponse registerResponse = new RegisterResponse();
+        if (accountRepository.findByUsername(request.getUsername()).isPresent()) {
+            registerResponse.setMess("User already exist!");
+            registerResponse.setCode(0L);
+            return registerResponse;
+        }
+
+        if (request.getDob().after(new Date())){
+            registerResponse.setMess("Date of Birth must before Today");
+            registerResponse.setCode(0L);
+            return registerResponse;
+        }
+
+
+        Account account = Account
+                .builder()
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Roles.CUSTOMER.name())
+                .build();
+        Account savedAccount = accountRepository.save(account);
+
+        Customer customer = Customer
+                .builder()
+                .first_name(request.getFirstName())
+                .last_name(request.getLastName())
+                .email(request.getEmail())
+                .dob(request.getDob())
+                .phoneNumber(request.getPhoneNumber())
+                .address("")
+                .build();
+        customer.setId(savedAccount.getId());
+        customerRepository.save(customer);
+
+        return registerResponse;
     }
 }
 

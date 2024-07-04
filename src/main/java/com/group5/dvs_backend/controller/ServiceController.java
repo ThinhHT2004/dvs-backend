@@ -29,9 +29,6 @@ public class ServiceController {
 
     @PutMapping("/update")
     public ResponseEntity<Service> updateService(@RequestBody Service updatedService) {
-        for (ServicePrice servicePrice: updatedService.getServicePriceList()){
-            System.out.println(servicePrice.getInitPrice());
-        }
         return ResponseEntity.ok(serviceImpl.updateService(updatedService));
     }
 

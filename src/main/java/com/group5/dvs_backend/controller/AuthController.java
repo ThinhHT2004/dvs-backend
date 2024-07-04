@@ -1,10 +1,7 @@
 package com.group5.dvs_backend.controller;
 
 
-import com.group5.dvs_backend.entity.Account;
-import com.group5.dvs_backend.entity.Auth;
-import com.group5.dvs_backend.entity.AuthRequest;
-import com.group5.dvs_backend.entity.AuthResponse;
+import com.group5.dvs_backend.entity.*;
 import com.group5.dvs_backend.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +32,13 @@ public class AuthController {
             @RequestBody AuthRequest request
             ){
         return ResponseEntity.ok(userService.authenticate(request));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<RegisterResponse> register(
+            @RequestBody RegisterRequest request
+            ){
+        return ResponseEntity.ok(userService.register(request));
     }
 
 //    @GetMapping("/login/google")

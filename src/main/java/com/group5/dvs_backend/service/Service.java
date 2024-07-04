@@ -18,4 +18,6 @@ public interface Service {
     String disable(Long id);
 
     List<com.group5.dvs_backend.entity.Service> getActiveService();
+
+    String enable(Long id);
 }

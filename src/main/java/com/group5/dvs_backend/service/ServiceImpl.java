@@ -62,5 +62,15 @@ public class ServiceImpl implements com.group5.dvs_backend.service.Service {
         return serviceRepository.getActiveService();
     }
 
+    @Override
+    public String enable(Long id) {
+        com.group5.dvs_backend.entity.Service service = serviceRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No Service Found"));
+        service.setActive(true);
+        serviceRepository.save(service);
+        return "Enable Service Successfully";
+    }
+
 
 }

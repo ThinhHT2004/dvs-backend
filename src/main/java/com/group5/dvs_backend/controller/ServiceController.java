@@ -5,6 +5,7 @@ import com.group5.dvs_backend.entity.ServicePrice;
 import com.group5.dvs_backend.service.ServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +47,11 @@ public class ServiceController {
     @PutMapping("/disable/{id}")
     public ResponseEntity<String> disableService(@PathVariable("id") Long id){
         return ResponseEntity.ok(serviceImpl.disable(id));
+    }
+
+    @PutMapping("/enable/{id}")
+    public ResponseEntity<String> enableService(@PathVariable("id") Long id){
+        return ResponseEntity.ok(serviceImpl.enable(id));
     }
 
     @GetMapping("/active")

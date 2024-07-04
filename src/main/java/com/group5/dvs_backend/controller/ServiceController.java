@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/services")
@@ -40,5 +41,15 @@ public class ServiceController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteService(@PathVariable("id") Long id){
         return ResponseEntity.ok(serviceImpl.delete(id));
+    }
+
+    @PutMapping("/disable/{id}")
+    public ResponseEntity<String> disableService(@PathVariable("id") Long id){
+        return ResponseEntity.ok(serviceImpl.disable(id));
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<List<Service>> getActiveService(){
+        return ResponseEntity.of(Optional.ofNullable(serviceImpl.getActiveService()));
     }
 }

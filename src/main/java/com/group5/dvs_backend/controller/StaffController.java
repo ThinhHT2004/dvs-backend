@@ -2,6 +2,7 @@ package com.group5.dvs_backend.controller;
 
 
 import com.group5.dvs_backend.entity.Staff;
+import com.group5.dvs_backend.entity.UpdateRequest;
 import com.group5.dvs_backend.service.StaffService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +31,9 @@ public class StaffController {
         return service.getStaffByRole("VALUATION_STAFF");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Staff> updateStaff(@PathVariable Long id, @RequestBody Staff staff) {
-        staff.setId(id);
-        Staff updatedStaff = service.updateStaff(staff);
+    @PutMapping("/update")
+    public ResponseEntity<Staff> updateStaff(@RequestBody UpdateRequest request) {
+        Staff updatedStaff = service.updateStaff(request);
         return ResponseEntity.ok(updatedStaff);
     }
 }

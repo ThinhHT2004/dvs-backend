@@ -87,22 +87,37 @@ public class UserService {
     }
 
     public AuthResponse authenticate(AuthRequest request){
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
 
-        Account account = accountRepository.findByUsername(request.getUsername()).orElseThrow();
-        var token = jwtService.generateToken(account);
-        return AuthResponse
-                .builder()
-                .role(account.getRole())
-                .id(account.getId())
-                .mess("Login Successfully")
-                .token(token)
-                .build();
+            Account account = accountRepository.findByUsername(request.getUsername()).orElseThrow();
+            if (!account.isActive()){
+                return AuthResponse
+                        .builder()
+                        .role("EMPTY")
+                        .mess("Username or Password is Incorrect")
+                        .build();
+            }
+            var token = jwtService.generateToken(account);
+            return AuthResponse
+                    .builder()
+                    .role(account.getRole())
+                    .id(account.getId())
+                    .mess("Login Successfully")
+                    .token(token)
+                    .build();
+        }catch (Exception e){
+            return AuthResponse
+                    .builder()
+                    .role("EMPTY")
+                    .mess("Username or Password is Incorrect")
+                    .build();
+        }
     }
 
     public RegisterResponse register(RegisterRequest request) {

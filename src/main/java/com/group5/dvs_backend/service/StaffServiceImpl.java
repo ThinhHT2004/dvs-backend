@@ -1,6 +1,8 @@
 package com.group5.dvs_backend.service;
 
+import com.group5.dvs_backend.entity.Account;
 import com.group5.dvs_backend.entity.Staff;
+import com.group5.dvs_backend.entity.UpdateRequest;
 import com.group5.dvs_backend.exception.ResourceNotFoundException;
 import com.group5.dvs_backend.repository.StaffRepository;
 import lombok.AllArgsConstructor;
@@ -30,11 +32,7 @@ public class StaffServiceImpl implements StaffService{
         return foundStaff;
     }
 
-    @Override
-    public Staff updateStaff(Staff staff) {
 
-        return staff;
-    }
 
     @Override
     public List<Staff> getStaffByRole(String role){
@@ -42,26 +40,25 @@ public class StaffServiceImpl implements StaffService{
     }
 
     @Override
-    public Staff updateStaff̣̣̣̣(Staff updatedStaff) {
-        Optional<Staff> existingStaffOpt =staffRepository.findById(updatedStaff.getId());
+    public Staff updateStaff(UpdateRequest request) {
+        Optional<Staff> existingStaffOpt =staffRepository.findById(request.getId());
 
         if(existingStaffOpt.isPresent()){
             Staff existingStaff= existingStaffOpt.get();
-            existingStaff.setFirstName(updatedStaff.getFirstName());
-            existingStaff.setLastName(updatedStaff.getLastName());
-            existingStaff.setEmail(updatedStaff.getEmail());
-            existingStaff.setPhoneNumber(updatedStaff.getPhoneNumber());
-            existingStaff.setAddress(updatedStaff.getAddress());
-            existingStaff.setDob(updatedStaff.getDob());
-            existingStaff.setAccount(updatedStaff.getAccount());
+            existingStaff.setFirstName(request.getFirstName());
+            existingStaff.setLastName(request.getLastName());
+            existingStaff.setEmail(request.getEmail());
+            existingStaff.setPhoneNumber(request.getPhoneNumber());
+            existingStaff.setAddress(request.getAddress());
+            existingStaff.setDob(request.getDob());
+            Account account = existingStaff.getAccount();
+            account.setRole(request.getRole());
+            existingStaff.setAccount(account);
 
             return staffRepository.save(existingStaff);
         }else{
-            throw new RuntimeException("Staff not found with id"+ updatedStaff);
+            throw new RuntimeException("Staff not found with id "+ request.getId());
         }
-
-
-
 
     }
 }

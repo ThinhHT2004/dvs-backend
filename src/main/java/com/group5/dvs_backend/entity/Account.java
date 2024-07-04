@@ -1,9 +1,7 @@
 package com.group5.dvs_backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +14,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class Account implements UserDetails {
 
     @Id
@@ -31,6 +30,9 @@ public class Account implements UserDetails {
 
     @Column(name = "role_id")
     private String role;
+
+    @Column(name = "active")
+    private boolean active;
 
     // Getters and Setters
 

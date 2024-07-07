@@ -24,7 +24,8 @@ public class ValuationReportController {
         return valuationReportService.updateValuationReport(valuationRequestId,valuationRequestDetailId,valuationReport);
     }
     @GetMapping("/diamond/{valuationReportId}")
-    public ResponseEntity<ValuationReport> findDiamondByValuationReportId(@PathVariable String valuationReportId) {
+    public ResponseEntity<ValuationReport> findDiamondByValuationReportId(@PathVariable("valuationReportId") String valuationReportId) {
+        System.out.println(valuationReportId);
         ValuationReport valuationReport = valuationReportService.findDiamondByValuationReportId(valuationReportId);
         return valuationReport != null ? ResponseEntity.ok(valuationReport) : ResponseEntity.notFound().build();
     }

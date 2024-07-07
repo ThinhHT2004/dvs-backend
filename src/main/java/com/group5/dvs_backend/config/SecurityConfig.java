@@ -28,7 +28,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
-    private String[] PUBLIC_REQUEST = {"/api/auth/**", "/api/diamond/**", "/diamond/{valuationReportId}"};
+    private String[] PUBLIC_REQUEST = {"/api/auth/**", "/api/diamond/**", "/api/reports/diamond/{valuationReportId}"};
 
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

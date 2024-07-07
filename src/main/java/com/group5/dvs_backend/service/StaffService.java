@@ -1,5 +1,7 @@
 package com.group5.dvs_backend.service;
 
+import com.group5.dvs_backend.entity.RegisterResponse;
+import com.group5.dvs_backend.entity.RegisterStaffRequest;
 import com.group5.dvs_backend.entity.Staff;
 import com.group5.dvs_backend.entity.UpdateRequest;
 
@@ -12,4 +14,5 @@ public interface StaffService {
     Staff updateStaff(UpdateRequest request);
 
 
+    RegisterResponse create(RegisterStaffRequest request);
 }

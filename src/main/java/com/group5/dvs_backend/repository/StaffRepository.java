@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface StaffRepository extends JpaRepository<Staff, Long> {
 
-    @Query("SELECT s FROM Staff s JOIN s.account WHERE s.account.role =?1")
+    @Query("SELECT s FROM Staff s JOIN s.account WHERE s.account.role =?1 AND s.account.active = true")
     List<Staff> findByRole(String role);
 }

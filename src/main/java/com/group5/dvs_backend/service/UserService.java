@@ -139,6 +139,7 @@ public class UserService {
                 .builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .active(true)
                 .role(Roles.CUSTOMER.name())
                 .build();
         Account savedAccount = accountRepository.save(account);

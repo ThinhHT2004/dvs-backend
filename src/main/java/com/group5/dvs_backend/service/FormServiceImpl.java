@@ -44,7 +44,7 @@ public class FormServiceImpl implements FormService{
         }else {
             if (form.getFormType().equals("SEALED")){
                 form.setFormType(FormEnum.SEALED_FORM.name());
-                form.setStatus("WAITING");
+                form.setStatus("SEALED");
                 updatedForm = formRepository.save(form);
             }else{
                 form.setFormType(FormEnum.COMMITMENT_FORM.name());

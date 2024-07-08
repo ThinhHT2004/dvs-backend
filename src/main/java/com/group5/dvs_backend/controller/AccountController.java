@@ -29,9 +29,9 @@ public class AccountController {
         return accountService.getAccountById(id);
     }
 
-    @PutMapping
-    public void updateAccount(@RequestBody Account updatedAccount) {
-        accountService.updateAccount(updatedAccount);
+    @PutMapping("/update/{id}/{pass}")
+    public void updateAccount(@PathVariable("pass") String password, @PathVariable("id") Long id) {
+        accountService.updateAccount(id, password);
     }
 
     @PutMapping("/disable/{id}")

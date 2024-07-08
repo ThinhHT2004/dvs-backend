@@ -3,12 +3,15 @@ package com.group5.dvs_backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "diamond")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Diamond {
 
     @Id
@@ -55,4 +58,27 @@ public class Diamond {
     @Column(name = "image")
     private String image;
 
+    @Column(name = "date")
+    private Date date;
+
+    @Override
+    public String toString() {
+        return "Diamond{" +
+                "id=" + id +
+                ", price=" + price +
+                ", source='" + source + '\'' +
+                ", caratWeight=" + caratWeight +
+                ", clarity='" + clarity + '\'' +
+                ", origin='" + origin + '\'' +
+                ", polish='" + polish + '\'' +
+                ", color='" + color + '\'' +
+                ", cut='" + cut + '\'' +
+                ", symmetry='" + symmetry + '\'' +
+                ", fluorescence='" + fluorescence + '\'' +
+                ", shape='" + shape + '\'' +
+                ", measurement='" + measurement + '\'' +
+                ", image='" + image + '\'' +
+                ", date=" + date +
+                '}';
+    }
 }

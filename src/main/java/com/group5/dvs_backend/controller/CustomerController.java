@@ -26,6 +26,8 @@ public class CustomerController {
     public Customer showCustomerById(@PathVariable Long id){
         return customerService.getCustomerById(id);
     }
+
+    @PutMapping("/update")
     public void updateCustomer(@RequestBody Customer updatedCustomer){
         customerService.updateCustomer(updatedCustomer);
 

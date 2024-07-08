@@ -75,4 +75,6 @@ public class ValuationReport {
 
     @Column(name = "active")
     private Boolean active;
+    @Column(name = "note")
+    private String note;
 }

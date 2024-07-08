@@ -1,5 +1,6 @@
 package com.group5.dvs_backend.controller;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +35,26 @@ public class DiamondController {
 
     @GetMapping("/search/{advanced}")
     public ResponseEntity<List<Diamond>> searchDiamonds(@PathVariable("advanced") boolean advanced,
-            @RequestParam("origin") String origin, @RequestParam("carat") double carat,
-            @RequestParam("shape") String shape, @RequestParam("color") String color,
-            @RequestParam("clarity") String clarity, @RequestParam("cut") String cut,
-            @RequestParam("symmetry") String symmetry, @RequestParam("polish") String polish,
-            @RequestParam("fluorescence") String fluorescence) {
+                                                        @RequestParam("origin") String origin, @RequestParam("carat") double carat,
+                                                        @RequestParam("shape") String shape, @RequestParam("color") String color,
+                                                        @RequestParam("clarity") String clarity, @RequestParam("cut") String cut,
+                                                        @RequestParam("symmetry") String symmetry, @RequestParam("polish") String polish,
+                                                        @RequestParam("fluorescence") String fluorescence) throws ParseException {
         List<Diamond> diamonds = diamondService.findDiamonds(advanced, origin, carat,
                 shape, color, clarity, cut, symmetry, polish, fluorescence);
+        return ResponseEntity.ok(diamonds);
+    }
+
+    @GetMapping("/search/{advanced}/{day}")
+    public ResponseEntity<List<Diamond>> searchDiamondsWithDate(@PathVariable("advanced") boolean advanced,
+                                                        @RequestParam("origin") String origin, @RequestParam("carat") double carat,
+                                                        @RequestParam("shape") String shape, @RequestParam("color") String color,
+                                                        @RequestParam("clarity") String clarity, @RequestParam("cut") String cut,
+                                                        @RequestParam("symmetry") String symmetry, @RequestParam("polish") String polish,
+                                                        @RequestParam("fluorescence") String fluorescence,
+                                                        @PathVariable("day") int day) {
+        List<Diamond> diamonds = diamondService.findDiamondsWithDay(advanced, origin, carat,
+                shape, color, clarity, cut, symmetry, polish, fluorescence, day);
         return ResponseEntity.ok(diamonds);
     }
 }

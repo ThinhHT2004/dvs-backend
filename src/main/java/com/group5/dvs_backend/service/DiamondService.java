@@ -10,4 +10,5 @@ public interface DiamondService {
             String clarity, String cut, String symmetry, String polish, String fluorescence) throws ParseException;
     public List<Diamond> findDiamondsWithDay(boolean advanced, String origin, double carat, String shape, String color,
                                       String clarity, String cut, String symmetry, String polish, String fluorescence, int day);
+    public List<Diamond> findAll();
 }

@@ -29,12 +29,16 @@ public class DiamondServiceImpl implements DiamondService {
         LocalDate localDate = LocalDate.now();
         Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
 
+        instant = instant.atZone(ZoneId.of("Asia/Bangkok")).toInstant();
+
+        Date date = Date.from(instant);
+
 
         if (advanced) {
-            return diamondRepository.findForTrueAdvanced(origin, carat, shape, color, clarity, cut, symmetry, polish,
-                    fluorescence, new Date());
+            return diamondRepository.findForTrueAdvanced(origin.trim(), carat, shape.trim(), color.trim(), clarity.trim(), cut.trim(), symmetry.trim(), polish.trim(),
+                    fluorescence.trim(), new Date());
         } else {
-            return diamondRepository.findForFalseAdvanced(origin, carat, shape, color, clarity, new Date());
+            return diamondRepository.findForFalseAdvanced(origin.trim(), carat, shape.trim(), color.trim(), clarity.trim(), new Date());
         }
     }
 
@@ -44,15 +48,20 @@ public class DiamondServiceImpl implements DiamondService {
         LocalDate localDate = LocalDate.now();
         localDate = localDate.minusDays(day);
         Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-
+        instant = instant.atZone(ZoneId.of("Asia/Bangkok")).toInstant();
         Date date = Date.from(instant);
 
         System.out.println(date);
         if (advanced) {
-            return diamondRepository.findForTrueAdvanced(origin, carat, shape, color, clarity, cut, symmetry, polish,
-                    fluorescence, date);
+            return diamondRepository.findForTrueAdvanced(origin.trim(), carat, shape.trim(), color.trim(), clarity.trim(), cut.trim(), symmetry.trim(), polish.trim(),
+                    fluorescence.trim(), date);
         } else {
-            return diamondRepository.findForFalseAdvanced(origin, carat, shape, color, clarity, date);
+            return diamondRepository.findForFalseAdvanced(origin.trim(), carat, shape.trim(), color.trim(), clarity.trim(), date);
         }
+    }
+
+    @Override
+    public List<Diamond> findAll() {
+        return diamondRepository.findAll();
     }
 }

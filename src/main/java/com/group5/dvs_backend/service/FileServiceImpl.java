@@ -26,24 +26,24 @@ public class FileServiceImpl implements FileService{
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Diamond diamond = Diamond
                     .builder()
-                    .price(Float.parseFloat(diamondContent[0]))
-                    .shape(diamondContent[1])
-                    .caratWeight(Float.parseFloat(diamondContent[2]))
-                    .color(diamondContent[3])
-                    .clarity(diamondContent[4])
-                    .cut(diamondContent[5])
-                    .fluorescence(diamondContent[6])
-                    .polish(diamondContent[7])
-                    .symmetry(diamondContent[8])
-                    .measurement(diamondContent[9])
-                    .origin(diamondContent[10])
-                    .source(diamondContent[11])
-                    .image(diamondContent[12])
-                    .date(format.parse(diamondContent[13]))
+                    .price(Float.parseFloat(diamondContent[0].trim()))
+                    .shape(diamondContent[1].trim())
+                    .caratWeight(Float.parseFloat(diamondContent[2].trim()))
+                    .color(diamondContent[3].trim())
+                    .clarity(diamondContent[4].trim())
+                    .cut(diamondContent[5].trim())
+                    .fluorescence(diamondContent[6].trim())
+                    .polish(diamondContent[7].trim())
+                    .symmetry(diamondContent[8].trim())
+                    .measurement(diamondContent[9].trim())
+                    .origin(diamondContent[10].trim())
+                    .source(diamondContent[11].trim())
+                    .image(diamondContent[12].trim())
+                    .date(format.parse(diamondContent[13].trim()))
                     .build();
+            System.out.println(diamond);
             Diamond savedDiamond = diamondRepository.save(diamond);
             System.out.println(savedDiamond);
-
         }
 
         return text;

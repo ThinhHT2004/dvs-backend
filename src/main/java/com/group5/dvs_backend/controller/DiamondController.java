@@ -57,4 +57,9 @@ public class DiamondController {
                 shape, color, clarity, cut, symmetry, polish, fluorescence, day);
         return ResponseEntity.ok(diamonds);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Diamond>> getAll(){
+        return ResponseEntity.ok(diamondService.findAll());
+    }
 }

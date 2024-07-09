@@ -1,5 +1,6 @@
 package com.group5.dvs_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -58,7 +59,9 @@ public class Diamond {
     @Column(name = "image")
     private String image;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "GMT+7")
     @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     @Override

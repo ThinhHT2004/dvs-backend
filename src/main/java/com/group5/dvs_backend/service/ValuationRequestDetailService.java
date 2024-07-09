@@ -9,4 +9,6 @@ public interface ValuationRequestDetailService {
 
     ValuationRequestDetail updateRequest(ValuationRequestDetail valuationRequestDetail);
     ValuationRequestDetail getById(Long id);
+
+    ValuationRequestDetail deny(Long id);
 }

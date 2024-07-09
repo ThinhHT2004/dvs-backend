@@ -50,7 +50,7 @@ public class ValuationRequestDetailServiceImpl implements ValuationRequestDetail
                 .findValuationRequestDetailByValuationRequestId(valuationRequest.getId());
 
         for (ValuationRequestDetail detail : valuationRequestDetails){
-            if (!detail.getStatus().equals("APPROVED")){
+            if (!detail.getStatus().equals("APPROVED") && !detail.getStatus().equals("DENIED")){
                 check = false;
                 break;
             }
@@ -70,6 +70,17 @@ public class ValuationRequestDetailServiceImpl implements ValuationRequestDetail
         return valuationRequestDetailRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No Sample Found"));
+    }
+
+    @Override
+    public ValuationRequestDetail deny(Long id) {
+        ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No Sample Found"));
+
+        valuationRequestDetail.setStatus("DENIED");
+        valuationRequestDetail.setDiamond(false);
+        return valuationRequestDetailRepository.save(valuationRequestDetail);
     }
 
 

@@ -6,6 +6,7 @@ import com.group5.dvs_backend.service.ValuationRequestDetailService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,11 @@ public class ValuationRequestDetailController {
     @GetMapping("/find/{id}")
     public ResponseEntity<ValuationRequestDetail> getById(@PathVariable("id") Long id){
         return ResponseEntity.ok(valuationRequestDetailService.getById(id));
+    }
+
+    @PutMapping("/deny/{id}")
+    public ValuationRequestDetail denySampe(@PathVariable("id") Long id){
+        return valuationRequestDetailService.deny(id);
     }
 
 }

@@ -28,7 +28,7 @@ public class DemoController {
     public void getMethodName(@RequestParam String email) {
         EmailDetail emailDetail = new EmailDetail();
         // fix cứng để test
-        emailDetail.setRecipient("dovantri1709@gmail.com");
+        emailDetail.setRecipient("huatanthinh1207@gmail.com");
         emailDetail.setSubject("Thank you for registering.");
         emailDetail.setName("tri");
         // template name la ten template trong folder resources/templates

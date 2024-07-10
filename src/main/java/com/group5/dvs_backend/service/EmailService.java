@@ -13,8 +13,10 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
+
 public class EmailService {
 
+    @Autowired  
     TemplateEngine templateEngine;
     @Autowired
     private JavaMailSender javaMailSender;

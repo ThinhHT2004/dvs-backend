@@ -55,7 +55,7 @@ public class FormServiceImpl implements FormService{
         return updatedForm;
     }
 
-    public Form createReceipt(List<ValuationRequestDetail> valuationRequestDetails, Long valuationRequestId) {
+    public Form createReceipt(List<ValuationRequestDetail> valuationRequestDetails, Long valuationRequestId, Long total) {
         if (valuationRequestDetails.isEmpty()) {
             throw new IllegalArgumentException("The list of ValuationRequestDetails cannot be empty.");
         }
@@ -72,7 +72,7 @@ public class FormServiceImpl implements FormService{
             valuationRequestDetailRepository.save(existingDetail);
         }
 
-        Form form = formRepository.save(new Form(valuationRequestId, FormEnum.RECEIPT.name(), "", new Date(), "ACCEPTED"));
+        Form form = formRepository.save(new Form(valuationRequestId, FormEnum.RECEIPT.name(), String.valueOf(total), new Date(), "ACCEPTED"));
 
         valuationRequest.setStatus("RECEIVED");
         valuationRequestRepository.save(valuationRequest);

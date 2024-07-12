@@ -18,9 +18,12 @@ public class FormController {
 
     private FormService formService;
 
-    @PostMapping("/create-receipt/{id}")
-    public ResponseEntity<Form> createReceipt(@RequestBody List<ValuationRequestDetail> details, @PathVariable("id") Long valuationRequestId) {
-        return ResponseEntity.ok(formService.createReceipt(details, valuationRequestId));
+    @PostMapping("/create-receipt/{id}/{total}")
+    public ResponseEntity<Form> createReceipt(@RequestBody List<ValuationRequestDetail> details
+            , @PathVariable("id") Long valuationRequestId
+            , @PathVariable("total") Long total) {
+        System.out.println(total);
+        return ResponseEntity.ok(formService.createReceipt(details, valuationRequestId, total));
     }
 
     @GetMapping("/waiting")

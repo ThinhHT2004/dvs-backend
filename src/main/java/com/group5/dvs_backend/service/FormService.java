@@ -8,7 +8,7 @@ import java.util.List;
 public interface FormService {
     Form createForm(Form form);
 
-    Form createReceipt(List<ValuationRequestDetail> valuationRequestDetails, Long valuationRequestId);
+    Form createReceipt(List<ValuationRequestDetail> valuationRequestDetails, Long valuationRequestId, Long total);
 
     List<Form> getWaitingForms();
 

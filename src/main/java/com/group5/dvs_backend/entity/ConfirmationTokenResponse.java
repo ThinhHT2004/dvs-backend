@@ -1,5 +1,6 @@
 package com.group5.dvs_backend.entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RegisterResponse {
-    private String mess;
-    private Long code = 1L;
+public class ConfirmationTokenResponse {
+    private String text;
+    private String type;
+    private int code;
 }

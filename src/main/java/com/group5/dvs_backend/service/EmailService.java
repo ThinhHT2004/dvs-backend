@@ -17,7 +17,7 @@ import jakarta.mail.internet.MimeMessage;
 
 public class EmailService {
 
-    @Autowired  
+    @Autowired
     TemplateEngine templateEngine;
     @Autowired
     private JavaMailSender javaMailSender;
@@ -27,31 +27,20 @@ public class EmailService {
     public void sendMailTemplate(EmailDetail emailDetail, String templateName) {
 
         try {
-            Context context = new Context();
-            context.setVariable("username", emailDetail.getName());
-            context.setVariable("email", emailDetail.getRecipient());
-            // context.setVariable("registrationDate",java.time.Clock.systemUTC().instant());
-
-            // template name la ten template trong folder resources/templates
-            String text = templateEngine.process(templateName, context);
 
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
             mimeMessageHelper.setFrom(myEmail);
             mimeMessageHelper.setTo(emailDetail.getRecipient());
-            mimeMessageHelper.setText(text, true);
+            mimeMessageHelper.setText(templateName, true);
             mimeMessageHelper.setSubject(emailDetail.getSubject());
-
-            // if (emailDetail.getAttachment() != null) {
-            // mimeMessageHelper.addAttachment(emailDetail.getAttachment().getFilename(),
-            // emailDetail.getAttachment());
-            // }
 
             javaMailSender.send(mimeMessage);
         } catch (MessagingException messagingException) {
             messagingException.printStackTrace();
         }
     }
+
 
 }

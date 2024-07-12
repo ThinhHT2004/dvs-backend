@@ -1,8 +1,8 @@
 package com.group5.dvs_backend.controller;
 
 
-import com.group5.dvs_backend.entity.RegisterResponse;
-import com.group5.dvs_backend.entity.RegisterStaffRequest;
+import com.group5.dvs_backend.payload.RegisterResponse;
+import com.group5.dvs_backend.payload.RegisterStaffRequest;
 import com.group5.dvs_backend.entity.Staff;
 import com.group5.dvs_backend.entity.UpdateRequest;
 import com.group5.dvs_backend.service.StaffService;

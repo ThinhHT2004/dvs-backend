@@ -1,4 +1,4 @@
-package com.group5.dvs_backend.entity;
+package com.group5.dvs_backend.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

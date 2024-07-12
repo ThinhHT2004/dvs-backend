@@ -12,8 +12,8 @@ import java.util.Optional;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("SELECT c FROM Customer c")
     List<Customer> findAllCustomers();
-    @Query("SELECT c FROM Customer c JOIN c.valuation_request vr WHERE vr.customer.id =?1")
-    List<Customer> findByCustomerId(Long id_customer);
+    @Query("SELECT c FROM Customer c WHERE c.id = ?1")
+    Customer findByCustomerId(Long id_customer);
 
     Optional<Customer> findByEmail(String email);
 }

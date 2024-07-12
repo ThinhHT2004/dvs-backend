@@ -1,8 +1,9 @@
 package com.group5.dvs_backend.service;
 
 import com.group5.dvs_backend.entity.*;
-import com.group5.dvs_backend.enums.Roles;
 import com.group5.dvs_backend.exception.ResourceNotFoundException;
+import com.group5.dvs_backend.payload.RegisterResponse;
+import com.group5.dvs_backend.payload.RegisterStaffRequest;
 import com.group5.dvs_backend.repository.AccountRepository;
 import com.group5.dvs_backend.repository.StaffRepository;
 import lombok.AllArgsConstructor;

@@ -108,5 +108,10 @@ public class FormServiceImpl implements FormService{
         return formRepository.save(form);
     }
 
+    @Override
+    public List<Form> getReceipts() {
+        return formRepository.findByReceipt();
+    }
+
 
 }

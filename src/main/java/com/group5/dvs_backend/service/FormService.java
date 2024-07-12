@@ -15,4 +15,6 @@ public interface FormService {
     Form approveForm(Long formId);
 
     Form denyForm(Long formId);
+
+    List<Form> getReceipts();
 }

@@ -45,4 +45,9 @@ public class FormController {
     public ResponseEntity<Form> denyForm(@PathVariable("id") Long formId){
         return ResponseEntity.ok(formService.denyForm(formId));
     }
+
+    @GetMapping("/receipt")
+    public ResponseEntity<List<Form>> getReceipts(){
+        return ResponseEntity.ok(formService.getReceipts());
+    }
 }

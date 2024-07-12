@@ -10,4 +10,7 @@ public interface FormRepository extends JpaRepository<Form, Long> {
 
     @Query("SELECT f FROM Form f WHERE f.status = 'WAITING'")
     List<Form> findByWaitingStatus();
+
+    @Query("SELECT f FROM Form f WHERE f.formType = 'RECEIPT'")
+    List<Form> findByReceipt();
 }

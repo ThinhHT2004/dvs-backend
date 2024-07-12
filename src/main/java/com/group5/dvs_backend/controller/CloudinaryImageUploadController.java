@@ -23,8 +23,8 @@ public class CloudinaryImageUploadController {
 
     @PostMapping("/upload")
     @CrossOrigin
-    public ResponseEntity<List<Map>> uploadImage(@RequestParam MultipartFile file1, @RequestParam MultipartFile file2,@RequestParam Long valuationReportId) {
-        List<Map> data = this.cloudinaryService.uploadToCloudinary(file1, file2,valuationReportId);
+    public ResponseEntity<List<Map>> uploadImage(@RequestParam MultipartFile file1, @RequestParam MultipartFile file2, @RequestParam MultipartFile file3,@RequestParam Long valuationReportId) {
+        List<Map> data = this.cloudinaryService.uploadToCloudinary(file1, file2, file3,valuationReportId);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 }

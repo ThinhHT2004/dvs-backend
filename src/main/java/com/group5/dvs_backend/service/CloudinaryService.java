@@ -22,7 +22,7 @@ public class CloudinaryService {
         this.valuationReportServiceImpl = valuationReportServiceImpl;
     }
 
-    public List<Map> uploadToCloudinary(MultipartFile file1, MultipartFile file2, Long valuationReportId) {
+    public List<Map> uploadToCloudinary(MultipartFile file1, MultipartFile file2, MultipartFile file3,Long valuationReportId) {
         try {
             /*
              * Map chứa thông tin về file đã được tải lên. Các thông tin này
@@ -31,15 +31,19 @@ public class CloudinaryService {
              */
             Map proportion = this.cloudinary.uploader().upload(file1.getBytes(), Map.of());
             Map characteristic = this.cloudinary.uploader().upload(file2.getBytes(), Map.of());
+            Map iamge = this.cloudinary.uploader().upload(file3.getBytes(), Map.of());
             List<Map> maps = new ArrayList<>();
             maps.add(proportion);
             maps.add(characteristic);
+            maps.add(iamge);
             // Lưu URL của ảnh xuống cơ sở dữ liệu
             String proportionUrl = (String) proportion.get("url");
             String characteristicUrl = (String) characteristic.get("url");
+            String image = (String) iamge.get("url");
             ValuationReport valuationReport = valuationReportServiceImpl.findById(valuationReportId);
             valuationReport.setProportion(proportionUrl);
             valuationReport.setCharacteristic(characteristicUrl);
+            valuationReport.setImage(image);
             valuationReportServiceImpl.save(valuationReport);
 
             return maps;

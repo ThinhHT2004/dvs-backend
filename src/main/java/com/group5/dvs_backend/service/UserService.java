@@ -11,7 +11,10 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -104,7 +107,7 @@ public class UserService {
                 return AuthResponse
                         .builder()
                         .role("EMPTY")
-                        .mess("Username or Password is Incorrect")
+                        .mess("Account is not verified")
                         .build();
             }
             var token = jwtService.generateToken(account);
@@ -115,11 +118,17 @@ public class UserService {
                     .mess("Login Successfully")
                     .token(token)
                     .build();
-        } catch (Exception e) {
+        }catch (BadCredentialsException bad){
             return AuthResponse
                     .builder()
                     .role("EMPTY")
-                    .mess("Username or Password is Incorrect")
+                    .mess("Password is incorrect")
+                    .build();
+        } catch (InternalAuthenticationServiceException e) {
+            return AuthResponse
+                    .builder()
+                    .role("EMPTY")
+                    .mess("Username does not exist")
                     .build();
         }
     }

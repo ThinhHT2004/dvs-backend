@@ -42,7 +42,7 @@ public class AuthController {
     }
 
     @GetMapping("/confirm/{type}/{token}")
-    public ResponseEntity<ConfirmationTokenResponse> confirm(@PathVariable("token") String token, @PathVariable("type") String type) throws IOException {
+    public ResponseEntity<ConfirmationTokenResponse> confirm(@PathVariable("token") String token, @PathVariable("type") String type){
          return ResponseEntity.ok(userService.confirmToken(token, type));
     }
 

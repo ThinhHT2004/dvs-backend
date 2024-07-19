@@ -131,6 +131,9 @@ public class ValuationRequestService {
     public List<ValuationRequest> getRequestsByTwoStatus(String status1, String status2) {
         return valuationRequestRepository.findByTwoStatus(status1, status2);
     }
+    public List<ValuationRequest> getRequestsByThreeStatus(String status1, String status2, String status3) {
+        return valuationRequestRepository.findByThreeStatus(status1, status2, status3);
+    }
 
     public ValuationRequest createAppointment(Long id, String date){
 

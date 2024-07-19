@@ -39,6 +39,9 @@ public interface ValuationRequestRepository extends JpaRepository<ValuationReque
     @Query("SELECT vr FROM ValuationRequest vr WHERE vr.status = ?1 OR vr.status = ?2")
     List<ValuationRequest> findByTwoStatus(String status1, String status2);
 
+    @Query("SELECT vr FROM ValuationRequest vr WHERE vr.status = ?1 OR vr.status = ?2 OR vr.status = ?3")
+    List<ValuationRequest> findByThreeStatus(String status1, String status2, String status3);
+
     @Query("SELECT vr FROM ValuationRequest vr " +
             "INNER JOIN vr.customer c " +
             "INNER JOIN vr.service" +

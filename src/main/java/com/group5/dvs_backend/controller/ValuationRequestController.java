@@ -80,6 +80,13 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.getRequestsByTwoStatus(status1, status2));
     }
 
+    @GetMapping("/valuation-request/status/{status1}/{status2}/{status3}")
+    public ResponseEntity<List<ValuationRequest>> getValuationRequestByThreeStatus(@PathVariable("status1") String status1,
+                                                                                   @PathVariable("status2") String status2,
+                                                                                   @PathVariable("status3") String status3){
+        return ResponseEntity.ok(valuationRequestService.getRequestsByThreeStatus(status1, status2, status3));
+    }
+
     @PutMapping("/create-appointment")
     public ValuationRequest createAppointment(@RequestParam("id") Long id, @RequestParam("receiveDate") String date){
         return valuationRequestService.createAppointment(id, date);

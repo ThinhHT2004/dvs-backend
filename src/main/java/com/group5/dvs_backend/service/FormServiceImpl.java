@@ -42,15 +42,13 @@ public class FormServiceImpl implements FormService{
             valuationRequest.setStatus("FINISHED");
             valuationRequestRepository.save(valuationRequest);
         }else {
-            if (form.getFormType().equals("SEALED")){
+            if (form.getFormType().equals("SEAL")){
                 form.setFormType(FormEnum.SEALED_FORM.name());
-                form.setStatus("WAITING");
-                updatedForm = formRepository.save(form);
             }else{
                 form.setFormType(FormEnum.COMMITMENT_FORM.name());
-                form.setStatus("WAITING");
-                updatedForm = formRepository.save(form);
             }
+            form.setStatus("WAITING");
+            updatedForm = formRepository.save(form);
         }
         return updatedForm;
     }

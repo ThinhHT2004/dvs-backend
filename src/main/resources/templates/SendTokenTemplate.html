@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <title>Test</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
-
 <body>
 <div style="font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c">
     <span style="display:none;font-size:1px;color:#fff;max-height:0"></span>
@@ -16,9 +15,9 @@
         <tr>
             <td width="10" valign="middle"><br></td>
             <td style="font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px">
-                <p style="Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c">Hi  name ,</p>
+                <p style="Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c">Hi  <p th:text="${lastName} + ' ' + ${firstName}"></p>
                 <p style="Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c"> Thank you for registering. This is your verification code: </p>
-                <blockquote style="Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px"><p style="Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c"> token </p></blockquote>
+                <blockquote style="Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px"><p style="Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c"> <b><p th:text="${token}"></p></b> </p></blockquote>
                 Link will expire in 15 minutes. <p>See you soon</p>
             </td>
             <td width="10" valign="middle"><br></td>
@@ -33,5 +32,4 @@
     </div>
 </div>
 </body>
-
 </html>

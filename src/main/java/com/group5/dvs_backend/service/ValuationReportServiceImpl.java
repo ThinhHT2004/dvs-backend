@@ -55,6 +55,7 @@ public class ValuationReportServiceImpl implements ValuationReportService {
                 valuationReport.setImage(updatedValuationReport.getImage());
                 String labId = String.format("%06d", valuationReport.getId());
                 valuationReport.setLabId(labId);
+                valuationReport.setActive(true);
 
                 valuationRequestDetail.setStatus("FILLED");
                 valuationRequest.setStatus("PROCESSING");

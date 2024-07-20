@@ -34,7 +34,6 @@ public class ValuationRequestDetailServiceImpl implements ValuationRequestDetail
         boolean check = true;
 
         valuationRequestDetail.setStatus("APPROVED");
-        valuationRequestDetail.getValuationReport().setActive(true);
 
         ValuationRequestDetail updated = valuationRequestDetailRepository.save(valuationRequestDetail);
 

@@ -28,6 +28,11 @@ public class ValuationRequestController {
         this.valuationRequestService.saveValuationRequestInfor(valuationRequest);
     }
 
+    @PostMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelRequest(@PathVariable Long id) {
+        return ResponseEntity.ok(valuationRequestService.cancelRequest(id));
+    }
+
     @GetMapping("/waiting")
     public List<ValuationRequest> getWaitingRequests() {
         return valuationRequestService.getDetailedWaitingRequest();
@@ -45,10 +50,6 @@ public class ValuationRequestController {
        return ResponseEntity.ok(valuationRequestService.findById(id));
     }
 
-    @DeleteMapping("/cancel/{id}")
-    public void cancelRequest(@PathVariable("id") Long id){
-        valuationRequestService.cancelRequest(id);
-    }
 
     @GetMapping("/valuation-request/{staffId}/{status}")
     public ResponseEntity<List<ValuationRequest>> getValuationRequestByStatusAndStaffId(@PathVariable("staffId") Long id,

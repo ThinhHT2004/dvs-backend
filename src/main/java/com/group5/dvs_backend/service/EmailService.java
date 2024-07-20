@@ -24,16 +24,19 @@ public class EmailService {
 
     @Value("${spring.mail.username}")
     String myEmail;
-    public void sendMailTemplate(EmailDetail emailDetail, String templateName) {
+    public void sendMailTemplate(EmailDetail emailDetail, String templateName, Context context) {
 
         try {
 
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
+            String process = templateEngine.process(templateName, context);
+
+
             mimeMessageHelper.setFrom(myEmail);
             mimeMessageHelper.setTo(emailDetail.getRecipient());
-            mimeMessageHelper.setText(templateName, true);
+            mimeMessageHelper.setText(process, true);
             mimeMessageHelper.setSubject(emailDetail.getSubject());
 
             javaMailSender.send(mimeMessage);

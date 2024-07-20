@@ -7,18 +7,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.group5.dvs_backend.entity.Form;
-import com.group5.dvs_backend.entity.ValuationReport;
-import com.group5.dvs_backend.entity.ValuationRequest;
-import com.group5.dvs_backend.entity.ValuationRequestDetail;
+import com.group5.dvs_backend.entity.*;
 import com.group5.dvs_backend.exception.ResourceNotFoundException;
-import com.group5.dvs_backend.repository.FormRepository;
-import com.group5.dvs_backend.repository.ValuationReportRepository;
-import com.group5.dvs_backend.repository.ValuationRequestDetailRepository;
-import com.group5.dvs_backend.repository.ValuationRequestRepository;
+import com.group5.dvs_backend.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
 @Service
 @AllArgsConstructor
@@ -31,6 +26,10 @@ public class ValuationRequestService {
     private final ValuationReportRepository valuationReportRepository;
     @Autowired
     private final FormRepository formRepository;
+    @Autowired
+    private final StaffRepository staffRepository;
+    @Autowired
+    private final EmailService emailService;
 
     public List<ValuationRequest> getAll() {
         return valuationRequestRepository.findAll();
@@ -40,11 +39,8 @@ public class ValuationRequestService {
         return valuationRequestRepository.findAllByConsultingStaffId(id);
     }
 
+
     public void saveValuationRequestInfor(ValuationRequest valuationRequest) {
-        for (int i = 0; i < valuationRequest.getQuantity(); i++) {
-            ValuationReport valuationReport = valuationReportRepository.save(new ValuationReport());
-            valuationRequest.addValuationRequestDetail(new ValuationRequestDetail(valuationReport, "WAITING",0.0, true));
-        }
         valuationRequest.setStatus("WAITING");
         valuationRequestRepository.save(valuationRequest);
     }
@@ -89,6 +85,27 @@ public class ValuationRequestService {
 
             valuationRequest.setReceivingDate(receiveDate);
             valuationRequestRepository.save(valuationRequest);
+
+            for (int i = 0; i < valuationRequest.getQuantity(); i++) {
+                ValuationReport valuationReport = valuationReportRepository.save(new ValuationReport());
+                valuationRequest.addValuationRequestDetail(new ValuationRequestDetail(valuationReport, "WAITING",0.0, true));
+            }
+
+            Staff staff = staffRepository.findById(consultingStaffId).orElseThrow(() -> new ResourceNotFoundException("No Staff Found"));
+
+            Context context = new Context();
+            context.setVariable("requestId", requestId);
+            context.setVariable("staffFirstName", staff.getFirstName());
+            context.setVariable("staffLastName", staff.getLastName());
+            context.setVariable("receiveDate", receiveDate);
+            context.setVariable("cusFirstName", valuationRequest.getCustomer().getFirst_name());
+            context.setVariable("cusLastName", valuationRequest.getCustomer().getLast_name());
+
+            EmailDetail emailDetail = new EmailDetail();
+            emailDetail.setRecipient(valuationRequest.getCustomer().getEmail());
+            emailDetail.setSubject("Diascur Acceptance Request Announcement");
+
+            emailService.sendMailTemplate(emailDetail, "AcceptRequest.html", context);
         } else {
             throw new IllegalStateException("Request is not in 'Waiting' state");
         }
@@ -116,12 +133,13 @@ public class ValuationRequestService {
     // tao bien lai
 
 
-    public void cancelRequest(Long id){
+    public String cancelRequest(Long id){
         ValuationRequest valuationRequest = valuationRequestRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No Valuation Request found"));
 
         valuationRequestRepository.delete(valuationRequest);
+        return "Valuation Request has been cancelled";
     }
 
     public List<ValuationRequest> getValuationRequestByStaffIdNotStatus(Long id, String status){

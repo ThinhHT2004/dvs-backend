@@ -24,15 +24,15 @@ public class DemoController {
         return ResponseEntity.ok("Hi");
     }
 
-    @GetMapping("/test/send-mail")
-    public void getMethodName(@RequestParam String email) {
-        EmailDetail emailDetail = new EmailDetail();
-        // fix cứng để test
-        emailDetail.setRecipient("huatanthinh1207@gmail.com");
-        emailDetail.setSubject("Thank you for registering.");
-        emailDetail.setName("tri");
-        // template name la ten template trong folder resources/templates
-        emailService.sendMailTemplate(emailDetail, "emailtemplate");
-    }
+//    @GetMapping("/test/send-mail")
+//    public void getMethodName(@RequestParam String email) {
+//        EmailDetail emailDetail = new EmailDetail();
+//        // fix cứng để test
+//        emailDetail.setRecipient("huatanthinh1207@gmail.com");
+//        emailDetail.setSubject("Thank you for registering.");
+//        emailDetail.setName("tri");
+//        // template name la ten template trong folder resources/templates
+//        emailService.sendMailTemplate(emailDetail, "emailtemplate");
+//    }
 
 }

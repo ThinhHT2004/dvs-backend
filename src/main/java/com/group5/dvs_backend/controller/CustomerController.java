@@ -28,9 +28,8 @@ public class CustomerController {
     }
 
     @PutMapping("/update")
-    public void updateCustomer(@RequestBody Customer updatedCustomer){
-        customerService.updateCustomer(updatedCustomer);
-
+    public ResponseEntity<?> updateCustomer(@RequestBody Customer updatedCustomer){
+        return ResponseEntity.ok(customerService.updateCustomer(updatedCustomer));
     }
     @GetMapping("/request/{id_customer}")
     public List<ValuationRequest> getRequestById(@PathVariable Long id_customer){

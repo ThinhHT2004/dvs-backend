@@ -74,7 +74,7 @@ public class ValuationRequestService {
             calendar.set(Calendar.SECOND, 0);
 
             Date workingDate = calendar.getTime();
-            if (receiveDate.compareTo(workingDate) > 0){
+            if (receiveDate.compareTo(workingDate) > 0) {
                 calendar.setTime(valuationRequest.getAppointmentDate());
                 calendar.add(Calendar.DATE, 1);
                 calendar.set(Calendar.HOUR_OF_DAY, 9);
@@ -88,7 +88,7 @@ public class ValuationRequestService {
 
             for (int i = 0; i < valuationRequest.getQuantity(); i++) {
                 ValuationReport valuationReport = valuationReportRepository.save(new ValuationReport());
-                valuationRequest.addValuationRequestDetail(new ValuationRequestDetail(valuationReport, "WAITING",0.0, true));
+                valuationRequest.addValuationRequestDetail(new ValuationRequestDetail(valuationReport, "WAITING", 0.0, true));
             }
 
             Staff staff = staffRepository.findById(consultingStaffId).orElseThrow(() -> new ResourceNotFoundException("No Staff Found"));
@@ -110,11 +110,11 @@ public class ValuationRequestService {
             throw new IllegalStateException("Request is not in 'Waiting' state");
         }
     }
-    public ValuationRequest findById (Long id){
+
+    public ValuationRequest findById(Long id) {
         return valuationRequestRepository.findByIdWithDetails(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No Request found"));
     }
-
 
 
     // Tìm những requets có consulting staff id được truyền vào
@@ -133,27 +133,43 @@ public class ValuationRequestService {
     // tao bien lai
 
 
-    public String cancelRequest(Long id){
+    public String cancelRequest(Long id) {
         ValuationRequest valuationRequest = valuationRequestRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No Valuation Request found"));
 
+        Context context = new Context();
+        context.setVariable("requestId", id);
+        context.setVariable("firstName", valuationRequest.getCustomer().getFirst_name());
+        context.setVariable("lastName", valuationRequest.getCustomer().getLast_name());
+        context.setVariable("cancellationDate", new Date());
+
+
+        EmailDetail emailDetail = new EmailDetail();
+        emailDetail.setRecipient(valuationRequest.getCustomer().getEmail());
+        emailDetail.setSubject("Diascur Cancellation Request Announcement");
+
+        emailService.sendMailTemplate(emailDetail, "RequestCancellation.html", context);
+
         valuationRequestRepository.delete(valuationRequest);
+
+
         return "Valuation Request has been cancelled";
     }
 
-    public List<ValuationRequest> getValuationRequestByStaffIdNotStatus(Long id, String status){
+    public List<ValuationRequest> getValuationRequestByStaffIdNotStatus(Long id, String status) {
         return valuationRequestRepository.findByConsultingStaffAndNotStatus(id, status);
     }
 
     public List<ValuationRequest> getRequestsByTwoStatus(String status1, String status2) {
         return valuationRequestRepository.findByTwoStatus(status1, status2);
     }
+
     public List<ValuationRequest> getRequestsByThreeStatus(String status1, String status2, String status3) {
         return valuationRequestRepository.findByThreeStatus(status1, status2, status3);
     }
 
-    public ValuationRequest createAppointment(Long id, String date){
+    public ValuationRequest createAppointment(Long id, String date) {
 
         ValuationRequest valuationRequest = valuationRequestRepository
                 .findById(id)

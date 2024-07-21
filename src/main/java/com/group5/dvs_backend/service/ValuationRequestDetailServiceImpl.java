@@ -1,5 +1,6 @@
 package com.group5.dvs_backend.service;
 
+import com.group5.dvs_backend.entity.EmailDetail;
 import com.group5.dvs_backend.entity.ValuationAssignment;
 import com.group5.dvs_backend.entity.ValuationRequest;
 import com.group5.dvs_backend.entity.ValuationRequestDetail;
@@ -10,7 +11,9 @@ import com.group5.dvs_backend.repository.ValuationRequestRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,6 +26,9 @@ public class ValuationRequestDetailServiceImpl implements ValuationRequestDetail
     private ValuationRequestRepository valuationRequestRepository;
     @Autowired
     private ValuationAssignmentRepository valuationAssignmentRepository;
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public List<ValuationRequestDetail> getValuationRequestDetailByStatus(String status) {
 
@@ -57,6 +63,18 @@ public class ValuationRequestDetailServiceImpl implements ValuationRequestDetail
 
         if (check){
             valuationRequest.setStatus("COMPLETED");
+
+            EmailDetail emailDetail = new EmailDetail();
+            emailDetail.setRecipient(valuationRequest.getCustomer().getEmail());
+            emailDetail.setSubject("Diascur Completed Request Announcement");
+
+            Context context = new Context();
+            context.setVariable("firstName", valuationRequest.getCustomer().getFirst_name());
+            context.setVariable("lastName", valuationRequest.getCustomer().getLast_name());
+            context.setVariable("requestId", valuationRequest.getId());
+            context.setVariable("receiveDate", new Date());
+
+            emailService.sendMailTemplate(emailDetail, "CompletedRequest.html", context);
         }
 
         valuationRequestRepository.save(valuationRequest);

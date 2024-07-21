@@ -1,5 +1,6 @@
 package com.group5.dvs_backend.controller;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -42,8 +43,6 @@ public class ValuationRequestController {
     public void assignConsultingStaff(@PathVariable Long requestId, @PathVariable Long consultingStaffId) {
         valuationRequestService.assignConsultingStaff(requestId, consultingStaffId);
     }
-
-
 
     @GetMapping("/valuation-request/{id}")
     public ResponseEntity<ValuationRequest> getValuationRequestById(@PathVariable Long id) {
@@ -91,5 +90,12 @@ public class ValuationRequestController {
     @PutMapping("/create-appointment")
     public ValuationRequest createAppointment(@RequestParam("id") Long id, @RequestParam("receiveDate") String date){
         return valuationRequestService.createAppointment(id, date);
+    }
+
+    @GetMapping("/valuation-request/filter/{from}/{to}")
+    public ResponseEntity<List<ValuationRequest>> getValuationRequestInRange(
+            @PathVariable LocalDate from,
+            @PathVariable LocalDate to){
+        return ResponseEntity.ok(valuationRequestService.getRequestsInRange(from, to));
     }
 }

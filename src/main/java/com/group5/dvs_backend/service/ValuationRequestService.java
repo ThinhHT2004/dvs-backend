@@ -2,6 +2,7 @@ package com.group5.dvs_backend.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -183,8 +184,12 @@ public class ValuationRequestService {
             throw new RuntimeException(e);
         }
 
-        formRepository.save(new Form(id, "HAND-OVER", "Receive Samples and Results", new Date()));
+        formRepository.save(new Form(id, "HAND-OVER", "Receive Samples and Results", LocalDate.now()));
 
         return valuationRequestRepository.save(valuationRequest);
+    }
+
+    public List<ValuationRequest> getRequestsInRange(LocalDate from, LocalDate to) {
+        return valuationRequestRepository.findInRange(from, to);
     }
 }

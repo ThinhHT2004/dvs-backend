@@ -3,6 +3,8 @@ package com.group5.dvs_backend.service;
 import com.group5.dvs_backend.entity.Form;
 import com.group5.dvs_backend.entity.ValuationRequestDetail;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface FormService {
@@ -17,4 +19,5 @@ public interface FormService {
     Form denyForm(Long formId);
 
     List<Form> getReceipts();
+    List<Form> getReceiptsByTimeRange(LocalDate from, LocalDate to);
 }

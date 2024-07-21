@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -49,5 +51,11 @@ public class FormController {
     @GetMapping("/receipt")
     public ResponseEntity<List<Form>> getReceipts(){
         return ResponseEntity.ok(formService.getReceipts());
+    }
+
+    @GetMapping("/receipt/{from}/{to}")
+    public ResponseEntity<List<Form>> getReceiptsInRange(@PathVariable LocalDate from,
+                                                         @PathVariable LocalDate to){
+        return ResponseEntity.ok(formService.getReceiptsByTimeRange(from, to));
     }
 }

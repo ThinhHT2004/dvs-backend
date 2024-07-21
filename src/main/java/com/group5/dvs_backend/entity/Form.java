@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.cglib.core.Local;
 
 import java.beans.ConstructorProperties;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -31,19 +33,19 @@ public class Form {
     private String note;
 
     @Column(name = "created_date")
-    private Date createdDate;
+    private LocalDate createdDate;
 
     @Column(name = "status")
     private String status;
 
-    public Form(Long valuationRequestId, String formType, String note, Date createdDate) {
+    public Form(Long valuationRequestId, String formType, String note, LocalDate createdDate) {
         this.valuationRequestId = valuationRequestId;
         this.formType = formType;
         this.note = note;
         this.createdDate = createdDate;
     }
 
-    public Form(Long valuationRequestId, String formType, String note, Date createdDate, String status) {
+    public Form(Long valuationRequestId, String formType, String note, LocalDate createdDate, String status) {
         this.valuationRequestId = valuationRequestId;
         this.formType = formType;
         this.note = note;

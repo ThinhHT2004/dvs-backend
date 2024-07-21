@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class FormServiceImpl implements FormService{
         ValuationRequest valuationRequest = valuationRequestRepository
                 .findById(form.getValuationRequestId())
                 .orElseThrow(() -> new RuntimeException("No Valuation Request Found"));
-        form.setCreatedDate(new Date());
+        form.setCreatedDate(LocalDate.now());
         if (form.getFormType().equals("HAND OVER")){
             form.setFormType("HAND-OVER");
             form.setStatus("ACCEPTED");
@@ -70,7 +72,7 @@ public class FormServiceImpl implements FormService{
             valuationRequestDetailRepository.save(existingDetail);
         }
 
-        Form form = formRepository.save(new Form(valuationRequestId, FormEnum.RECEIPT.name(), String.valueOf(total), new Date(), "ACCEPTED"));
+        Form form = formRepository.save(new Form(valuationRequestId, FormEnum.RECEIPT.name(), String.valueOf(total), LocalDate.now(), "ACCEPTED"));
 
         valuationRequest.setStatus("RECEIVED");
         valuationRequestRepository.save(valuationRequest);
@@ -109,6 +111,11 @@ public class FormServiceImpl implements FormService{
     @Override
     public List<Form> getReceipts() {
         return formRepository.findByReceipt();
+    }
+
+    @Override
+    public List<Form> getReceiptsByTimeRange(LocalDate from, LocalDate to) {
+        return formRepository.findByReceiptsInRange(from, to);
     }
 
 

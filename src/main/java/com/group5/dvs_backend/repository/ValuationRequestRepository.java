@@ -1,10 +1,12 @@
 package com.group5.dvs_backend.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.group5.dvs_backend.entity.ValuationRequest;
@@ -54,4 +56,8 @@ public interface ValuationRequestRepository extends JpaRepository<ValuationReque
     List<ValuationRequest> findByConsultingStaffIdAndThreeStatus(Long consultingStaffId, String status1, String status2, String status3);
 
     List<ValuationRequest> findByCustomerId(Long id);
+
+    @Query("SELECT vr FROM ValuationRequest vr " +
+            "WHERE CAST(vr.requestDate AS date) >= :from AND CAST(vr.requestDate AS date) <= :to")
+    List<ValuationRequest> findInRange(@Param("from") LocalDate from,@Param("to") LocalDate to);
 }

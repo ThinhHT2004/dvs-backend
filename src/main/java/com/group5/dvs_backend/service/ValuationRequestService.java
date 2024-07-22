@@ -84,13 +84,13 @@ public class ValuationRequestService {
                 receiveDate = calendar.getTime();
             }
 
-            valuationRequest.setReceivingDate(receiveDate);
-            valuationRequestRepository.save(valuationRequest);
-
             for (int i = 0; i < valuationRequest.getQuantity(); i++) {
                 ValuationReport valuationReport = valuationReportRepository.save(new ValuationReport());
                 valuationRequest.addValuationRequestDetail(new ValuationRequestDetail(valuationReport, "WAITING", 0.0, true));
             }
+
+            valuationRequest.setReceivingDate(receiveDate);
+            valuationRequestRepository.save(valuationRequest);
 
             Staff staff = staffRepository.findById(consultingStaffId).orElseThrow(() -> new ResourceNotFoundException("No Staff Found"));
 

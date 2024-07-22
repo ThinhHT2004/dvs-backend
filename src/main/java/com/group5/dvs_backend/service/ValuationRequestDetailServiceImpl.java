@@ -91,12 +91,40 @@ public class ValuationRequestDetailServiceImpl implements ValuationRequestDetail
 
     @Override
     public ValuationRequestDetail deny(Long id) {
+        boolean check = true;
         ValuationRequestDetail valuationRequestDetail = valuationRequestDetailRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No Sample Found"));
-
+        ValuationRequest valuationRequest = valuationRequestRepository
+                .findById(valuationRequestDetail.getValuationRequestId())
+                .orElseThrow(() -> new ResourceNotFoundException("No Valuation Request Found"));
         valuationRequestDetail.setStatus("DENIED");
         valuationRequestDetail.setDiamond(false);
+
+        for (ValuationRequestDetail vrd : valuationRequest.getValuationRequestDetailList()){
+            if (!vrd.getStatus().equals("DENIED")){
+                check = false;
+                break;
+            }
+        }
+
+        if(check){
+            valuationRequest.setStatus("FINISHED");
+
+            valuationRequestRepository.save(valuationRequest);
+
+            EmailDetail emailDetail = new EmailDetail();
+            emailDetail.setRecipient(valuationRequest.getCustomer().getEmail());
+            emailDetail.setSubject("Diascur Deny Request Announcement");
+
+            Context context = new Context();
+            context.setVariable("firstName", valuationRequest.getCustomer().getFirst_name());
+            context.setVariable("lastName", valuationRequest.getCustomer().getLast_name());
+            context.setVariable("requestId", valuationRequest.getId());
+            context.setVariable("receiveDate",valuationRequest.getReceivingDate());
+            emailService.sendMailTemplate(emailDetail, "DeniedRequest.html", context);
+        }
+
         return valuationRequestDetailRepository.save(valuationRequestDetail);
     }
 
